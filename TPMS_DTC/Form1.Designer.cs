@@ -33,44 +33,88 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("I/O Monitoring");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("AutoCalibrationAngle");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Calibration Status Rear");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("EOL_Measurement Azimuth Angle_LH");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("EOL_Measurement Azimuth Angle_RH");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Calibration Status - RR_C_RDR_LH");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Calibration Status - RR_C_RDR_RH");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Calibration Status - FR_C_RDR_LH");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Calibration Status - FR_C_RDR_RH");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("EOL Measurement Azimuth Angle - FR_C_RDR_LH");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("EOL Measurement Azimuth Angle - FR_C_RDR_RH");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Variant Coding Status");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Serial Number (RL)");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("RXSWIN Data");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ReadData", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Start Diagnostic Session");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Stop Diagnostic Session");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Vehicle Project Name");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Ecu Identification Data Table");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("HMC/KMC Part configuration");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("VIN (Vehicle Identification Number)");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Read Sensors Id");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Manufacturer Part Information Block");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Read ECU Identification ID", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4,
             treeNode5,
             treeNode6,
             treeNode7,
-            treeNode8,
-            treeNode9,
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Active Fault (Current DTC)");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Historic Fault (Historical DTC)");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Read DTC By Status", new System.Windows.Forms.TreeNode[] {
             treeNode10,
-            treeNode11,
-            treeNode12,
+            treeNode11});
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Clear all historic and active DTC information");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Active DTCS changed to Historic DTC");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Historic DTCS changed to Active DTC");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Clear Diagnostic Information", new System.Windows.Forms.TreeNode[] {
             treeNode13,
-            treeNode14});
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Clear Diagnostic Information");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Clear DTC", new System.Windows.Forms.TreeNode[] {
+            treeNode14,
+            treeNode15});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Standard Diagnostic Mode", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode9,
+            treeNode12,
             treeNode16});
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Read Diagnostic Information");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Read DTC", new System.Windows.Forms.TreeNode[] {
-            treeNode18});
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Manual Byte Input");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("수동입력", new System.Windows.Forms.TreeNode[] {
-            treeNode20});
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Start Diagnostic Session");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("ECU Input Battery Values");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Lamp Drive Status");
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Sensor Status Infromation");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("ECU Status Infromation");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Read Data By Local Identifier", new System.Windows.Forms.TreeNode[] {
+            treeNode19,
+            treeNode20,
+            treeNode21,
+            treeNode22});
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Vehicle Project Name & Wheel Size");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("ECU Identificaiton data table");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("HMC / KMC Part Configuration");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("VIN (Vehicle identification number)");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Sensor ID\'s Type 1 Learn");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Manufacture Part Information Block");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Write Data By Local Identifier", new System.Windows.Forms.TreeNode[] {
+            treeNode24,
+            treeNode25,
+            treeNode26,
+            treeNode27,
+            treeNode28,
+            treeNode29});
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("ECU Programming Mode", new System.Windows.Forms.TreeNode[] {
+            treeNode18,
+            treeNode23,
+            treeNode30});
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Start Diagnostic Session");
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Stop Diagnostic Session");
+            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Vehicle Project Name");
+            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("Ecu Identification Data Table");
+            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("HMC/KMC Part configuration");
+            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("VIN (Vehicle Identification Number)");
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Read Sensors Id");
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Manufacturer Part Information Block");
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Read ECU Identification ID", new System.Windows.Forms.TreeNode[] {
+            treeNode34,
+            treeNode35,
+            treeNode36,
+            treeNode37,
+            treeNode38,
+            treeNode39});
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Extended Diagnostic Mode", new System.Windows.Forms.TreeNode[] {
+            treeNode32,
+            treeNode33,
+            treeNode40});
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Manual Byte Input");
+            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("수동입력", new System.Windows.Forms.TreeNode[] {
+            treeNode42});
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
@@ -142,7 +186,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.trv_ServiceList = new System.Windows.Forms.TreeView();
+            this.ServiceList = new System.Windows.Forms.TreeView();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.CH2_Button = new System.Windows.Forms.Button();
@@ -152,15 +196,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
-            this.LogListView = new System.Windows.Forms.ListView();
-            this.TxRx = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.TimeStamp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Data = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Description = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.LogListBox = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -399,7 +435,7 @@
             this.tableLayoutPanel23.ColumnCount = 3;
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.60177F));
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.39823F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
             this.tableLayoutPanel23.Controls.Add(this.DataTransmit, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.DataDelete, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.label3, 0, 0);
@@ -416,9 +452,9 @@
             // 
             this.DataTransmit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataTransmit.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DataTransmit.Location = new System.Drawing.Point(332, 3);
+            this.DataTransmit.Location = new System.Drawing.Point(320, 3);
             this.DataTransmit.Name = "DataTransmit";
-            this.DataTransmit.Size = new System.Drawing.Size(119, 34);
+            this.DataTransmit.Size = new System.Drawing.Size(131, 34);
             this.DataTransmit.TabIndex = 15;
             this.DataTransmit.Text = "Transmit";
             this.DataTransmit.UseVisualStyleBackColor = true;
@@ -428,9 +464,9 @@
             // 
             this.DataDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataDelete.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DataDelete.Location = new System.Drawing.Point(216, 3);
+            this.DataDelete.Location = new System.Drawing.Point(208, 3);
             this.DataDelete.Name = "DataDelete";
-            this.DataDelete.Size = new System.Drawing.Size(110, 34);
+            this.DataDelete.Size = new System.Drawing.Size(106, 34);
             this.DataDelete.TabIndex = 14;
             this.DataDelete.Text = "Delete";
             this.DataDelete.UseVisualStyleBackColor = true;
@@ -444,7 +480,7 @@
             this.label3.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(3, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(207, 40);
+            this.label3.Size = new System.Drawing.Size(199, 40);
             this.label3.TabIndex = 4;
             this.label3.Text = "Tx";
             // 
@@ -604,7 +640,7 @@
             this.tableLayoutPanel19.ColumnCount = 3;
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.28571F));
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.71428F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 548F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 560F));
             this.tableLayoutPanel19.Controls.Add(this.cb_FS, 0, 1);
             this.tableLayoutPanel19.Controls.Add(this.label14, 2, 0);
             this.tableLayoutPanel19.Controls.Add(this.label11, 1, 0);
@@ -630,7 +666,7 @@
             "Overflow(2)"});
             this.cb_FS.Location = new System.Drawing.Point(3, 22);
             this.cb_FS.Name = "cb_FS";
-            this.cb_FS.Size = new System.Drawing.Size(144, 30);
+            this.cb_FS.Size = new System.Drawing.Size(135, 30);
             this.cb_FS.TabIndex = 9;
             this.cb_FS.Text = "CTS(0)";
             this.cb_FS.SelectedIndexChanged += new System.EventHandler(this.cb_FS_SelectedIndexChanged);
@@ -641,9 +677,9 @@
             this.label14.BackColor = System.Drawing.SystemColors.Control;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label14.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(204, 0);
+            this.label14.Location = new System.Drawing.Point(192, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(543, 19);
+            this.label14.Size = new System.Drawing.Size(555, 19);
             this.label14.TabIndex = 8;
             this.label14.Text = "ST_MIN";
             // 
@@ -653,9 +689,9 @@
             this.label11.BackColor = System.Drawing.SystemColors.Control;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(153, 0);
+            this.label11.Location = new System.Drawing.Point(144, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(45, 19);
+            this.label11.Size = new System.Drawing.Size(42, 19);
             this.label11.TabIndex = 7;
             this.label11.Text = "BS";
             // 
@@ -667,7 +703,7 @@
             this.label10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(144, 19);
+            this.label10.Size = new System.Drawing.Size(135, 19);
             this.label10.TabIndex = 5;
             this.label10.Text = "FS";
             // 
@@ -677,12 +713,12 @@
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.03653F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.96347F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 79F));
             this.tableLayoutPanel21.Controls.Add(this.dud_STmin_us, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.rBtn_ms, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.udStmin_ms, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.rBtn_μs, 3, 0);
-            this.tableLayoutPanel21.Location = new System.Drawing.Point(204, 22);
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(192, 22);
             this.tableLayoutPanel21.Name = "tableLayoutPanel21";
             this.tableLayoutPanel21.RowCount = 1;
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -699,7 +735,7 @@
             0,
             0,
             0});
-            this.dud_STmin_us.Location = new System.Drawing.Point(308, 3);
+            this.dud_STmin_us.Location = new System.Drawing.Point(296, 3);
             this.dud_STmin_us.Maximum = new decimal(new int[] {
             900,
             0,
@@ -715,7 +751,7 @@
             this.rBtn_ms.AutoSize = true;
             this.rBtn_ms.Checked = true;
             this.rBtn_ms.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rBtn_ms.Location = new System.Drawing.Point(211, 3);
+            this.rBtn_ms.Location = new System.Drawing.Point(203, 3);
             this.rBtn_ms.Name = "rBtn_ms";
             this.rBtn_ms.Size = new System.Drawing.Size(48, 26);
             this.rBtn_ms.TabIndex = 47;
@@ -734,7 +770,7 @@
             0,
             0});
             this.udStmin_ms.Name = "udStmin_ms";
-            this.udStmin_ms.Size = new System.Drawing.Size(202, 30);
+            this.udStmin_ms.Size = new System.Drawing.Size(194, 30);
             this.udStmin_ms.TabIndex = 44;
             this.udStmin_ms.Value = new decimal(new int[] {
             20,
@@ -747,7 +783,7 @@
             // 
             this.rBtn_μs.AutoSize = true;
             this.rBtn_μs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rBtn_μs.Location = new System.Drawing.Point(469, 3);
+            this.rBtn_μs.Location = new System.Drawing.Point(457, 3);
             this.rBtn_μs.Name = "rBtn_μs";
             this.rBtn_μs.Size = new System.Drawing.Size(48, 26);
             this.rBtn_μs.TabIndex = 50;
@@ -760,10 +796,10 @@
             // 
             this.tb_bs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tb_bs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_bs.Location = new System.Drawing.Point(153, 22);
+            this.tb_bs.Location = new System.Drawing.Point(144, 22);
             this.tb_bs.MaxLength = 2;
             this.tb_bs.Name = "tb_bs";
-            this.tb_bs.Size = new System.Drawing.Size(45, 30);
+            this.tb_bs.Size = new System.Drawing.Size(42, 30);
             this.tb_bs.TabIndex = 16;
             this.tb_bs.Text = "00";
             this.tb_bs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -909,10 +945,10 @@
             this.FC_ID_Edit.FormatMode = NationalInstruments.UI.NumericFormatMode.CreateHexadecimalMode(3, true);
             this.FC_ID_Edit.Location = new System.Drawing.Point(3, 3);
             this.FC_ID_Edit.Name = "FC_ID_Edit";
-            this.FC_ID_Edit.Range = new NationalInstruments.UI.Range(0D, 2047D);
+            this.FC_ID_Edit.Range = new NationalInstruments.UI.Range(0D, 4096D);
             this.FC_ID_Edit.Size = new System.Drawing.Size(203, 30);
             this.FC_ID_Edit.TabIndex = 50;
-            this.FC_ID_Edit.Value = 1975D;
+            this.FC_ID_Edit.Value = 2006D;
             // 
             // tableLayoutPanel10
             // 
@@ -997,10 +1033,10 @@
             this.MSG_ID_Edit.FormatMode = NationalInstruments.UI.NumericFormatMode.CreateHexadecimalMode(3, true);
             this.MSG_ID_Edit.Location = new System.Drawing.Point(3, 21);
             this.MSG_ID_Edit.Name = "MSG_ID_Edit";
-            this.MSG_ID_Edit.Range = new NationalInstruments.UI.Range(0D, 2047D);
+            this.MSG_ID_Edit.Range = new NationalInstruments.UI.Range(0D, 4096D);
             this.MSG_ID_Edit.Size = new System.Drawing.Size(203, 30);
             this.MSG_ID_Edit.TabIndex = 49;
-            this.MSG_ID_Edit.Value = 1975D;
+            this.MSG_ID_Edit.Value = 2006D;
             // 
             // tbpn_DataByte
             // 
@@ -1160,7 +1196,7 @@
             this.tableLayoutPanel8.ColumnCount = 1;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.10661F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.89339F));
-            this.tableLayoutPanel8.Controls.Add(this.trv_ServiceList, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.ServiceList, 0, 1);
             this.tableLayoutPanel8.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel8.Location = new System.Drawing.Point(3, 89);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
@@ -1171,61 +1207,106 @@
             this.tableLayoutPanel8.Size = new System.Drawing.Size(938, 493);
             this.tableLayoutPanel8.TabIndex = 4;
             // 
-            // trv_ServiceList
+            // ServiceList
             // 
-            this.trv_ServiceList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.trv_ServiceList.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.trv_ServiceList.Location = new System.Drawing.Point(3, 41);
-            this.trv_ServiceList.Name = "trv_ServiceList";
-            treeNode1.Name = "chd_IO_Monitoring";
-            treeNode1.Text = "I/O Monitoring";
-            treeNode2.Name = "chd_AutoCalib_Angle";
-            treeNode2.Text = "AutoCalibrationAngle";
-            treeNode3.Name = "chd_calibStatus_Rear";
-            treeNode3.Text = "Calibration Status Rear";
-            treeNode4.Name = "chd_EOL_Azimuth Angle_LH";
-            treeNode4.Text = "EOL_Measurement Azimuth Angle_LH";
-            treeNode5.Name = "chd_EOL_Azimuth Angle_RH";
-            treeNode5.Text = "EOL_Measurement Azimuth Angle_RH";
-            treeNode6.Name = "chd_Calib_Status_RR_LH";
-            treeNode6.Text = "Calibration Status - RR_C_RDR_LH";
-            treeNode7.Name = "chd_Calib_Status_RR_RH";
-            treeNode7.Text = "Calibration Status - RR_C_RDR_RH";
-            treeNode8.Name = "chd_Calib_Status_FR_LH";
-            treeNode8.Text = "Calibration Status - FR_C_RDR_LH";
-            treeNode9.Name = "chd_Calib_Status_FR_RH";
-            treeNode9.Text = "Calibration Status - FR_C_RDR_RH";
-            treeNode10.Name = "chd_EOL_Meas_Azimuth_FR_LH";
-            treeNode10.Text = "EOL Measurement Azimuth Angle - FR_C_RDR_LH";
-            treeNode11.Name = "chd_EOL_Meas_Azimuth_FR_RH";
-            treeNode11.Text = "EOL Measurement Azimuth Angle - FR_C_RDR_RH";
-            treeNode12.Name = "chd_Variant_Coding_status";
-            treeNode12.Text = "Variant Coding Status";
-            treeNode13.Name = "chd_Serial_number_RL";
-            treeNode13.Text = "Serial Number (RL)";
-            treeNode14.Name = "chd_RXSWIN Data";
-            treeNode14.Text = "RXSWIN Data";
-            treeNode15.Name = "nodeReadData";
-            treeNode15.Text = "ReadData";
-            treeNode16.Name = "chd_ClearDiagInfo";
+            this.ServiceList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ServiceList.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ServiceList.Location = new System.Drawing.Point(3, 41);
+            this.ServiceList.Name = "ServiceList";
+            treeNode1.Name = "StartDiagnostic";
+            treeNode1.Text = "Start Diagnostic Session";
+            treeNode2.Name = "StopDiagnostic";
+            treeNode2.Text = "Stop Diagnostic Session";
+            treeNode3.Name = "VehicleProject";
+            treeNode3.Text = "Vehicle Project Name";
+            treeNode4.Name = "EcuIdentification";
+            treeNode4.Text = "Ecu Identification Data Table";
+            treeNode5.Name = "HMC/KMC";
+            treeNode5.Text = "HMC/KMC Part configuration";
+            treeNode6.Name = "VIN";
+            treeNode6.Text = "VIN (Vehicle Identification Number)";
+            treeNode7.Name = "ReadSensors";
+            treeNode7.Text = "Read Sensors Id";
+            treeNode8.Name = "ManufacturerPart";
+            treeNode8.Text = "Manufacturer Part Information Block";
+            treeNode9.Name = "ReadECU";
+            treeNode9.Text = "Read ECU Identification ID";
+            treeNode10.Name = "ActiveFault";
+            treeNode10.Text = "Active Fault (Current DTC)";
+            treeNode11.Name = "HistoricFault";
+            treeNode11.Text = "Historic Fault (Historical DTC)";
+            treeNode12.Name = "ReadDTC";
+            treeNode12.Text = "Read DTC By Status";
+            treeNode13.Name = "ClearAll";
+            treeNode13.Text = "Clear all historic and active DTC information";
+            treeNode14.Name = "ActiveDTCS";
+            treeNode14.Text = "Active DTCS changed to Historic DTC";
+            treeNode15.Name = "HistoricDTCS";
+            treeNode15.Text = "Historic DTCS changed to Active DTC";
+            treeNode16.Name = "ClearDiagnostic";
             treeNode16.Text = "Clear Diagnostic Information";
-            treeNode17.Name = "nodeClearDTC";
-            treeNode17.Text = "Clear DTC";
-            treeNode18.Name = "chd_Read_DTC_info";
-            treeNode18.Text = "Read Diagnostic Information";
-            treeNode19.Name = "nodeReadDTC";
-            treeNode19.Text = "Read DTC";
-            treeNode20.Name = "chd_manualByteInput";
-            treeNode20.Text = "Manual Byte Input";
-            treeNode21.Name = "nodeManualSend";
-            treeNode21.Text = "수동입력";
-            this.trv_ServiceList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode15,
+            treeNode17.Name = "nodeStandard";
+            treeNode17.Text = "Standard Diagnostic Mode";
+            treeNode18.Name = "StartDiagnostic2";
+            treeNode18.Text = "Start Diagnostic Session";
+            treeNode19.Name = "ECUInputBattery";
+            treeNode19.Text = "ECU Input Battery Values";
+            treeNode20.Name = "LampDrive";
+            treeNode20.Text = "Lamp Drive Status";
+            treeNode21.Name = "SensorStatus";
+            treeNode21.Text = "Sensor Status Infromation";
+            treeNode22.Name = "ECUStatus";
+            treeNode22.Text = "ECU Status Infromation";
+            treeNode23.Name = "ReadData";
+            treeNode23.Text = "Read Data By Local Identifier";
+            treeNode24.Name = "VehicleProject&WheelSize";
+            treeNode24.Text = "Vehicle Project Name & Wheel Size";
+            treeNode25.Name = "ECUIdentificationData";
+            treeNode25.Text = "ECU Identificaiton data table";
+            treeNode26.Name = "HMC/KMCData";
+            treeNode26.Text = "HMC / KMC Part Configuration";
+            treeNode27.Name = "VINData";
+            treeNode27.Text = "VIN (Vehicle identification number)";
+            treeNode28.Name = "SensorIDType";
+            treeNode28.Text = "Sensor ID\'s Type 1 Learn";
+            treeNode29.Name = "ManufacturePartInfo";
+            treeNode29.Text = "Manufacture Part Information Block";
+            treeNode30.Name = "노드30";
+            treeNode30.Text = "Write Data By Local Identifier";
+            treeNode31.Name = "nodeECU";
+            treeNode31.Text = "ECU Programming Mode";
+            treeNode32.Name = "StartDiagnostic3";
+            treeNode32.Text = "Start Diagnostic Session";
+            treeNode33.Name = "StopDiagnostic2";
+            treeNode33.Text = "Stop Diagnostic Session";
+            treeNode34.Name = "VehicleProject2";
+            treeNode34.Text = "Vehicle Project Name";
+            treeNode35.Name = "EcuIdentification2";
+            treeNode35.Text = "Ecu Identification Data Table";
+            treeNode36.Name = "HMC/KMC2";
+            treeNode36.Text = "HMC/KMC Part configuration";
+            treeNode37.Name = "VIN2";
+            treeNode37.Text = "VIN (Vehicle Identification Number)";
+            treeNode38.Name = "ReadSensors2";
+            treeNode38.Text = "Read Sensors Id";
+            treeNode39.Name = "ManufacturerPart2";
+            treeNode39.Text = "Manufacturer Part Information Block";
+            treeNode40.Name = "ReadECU2";
+            treeNode40.Text = "Read ECU Identification ID";
+            treeNode41.Name = "nodeExtended";
+            treeNode41.Text = "Extended Diagnostic Mode";
+            treeNode42.Name = "ManualByteInput";
+            treeNode42.Text = "Manual Byte Input";
+            treeNode43.Name = "nodeManualSend";
+            treeNode43.Text = "수동입력";
+            this.ServiceList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode17,
-            treeNode19,
-            treeNode21});
-            this.trv_ServiceList.Size = new System.Drawing.Size(932, 449);
-            this.trv_ServiceList.TabIndex = 5;
+            treeNode31,
+            treeNode41,
+            treeNode43});
+            this.ServiceList.Size = new System.Drawing.Size(932, 449);
+            this.ServiceList.TabIndex = 5;
+            this.ServiceList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ServiceList_NodeMouseDoubleClick);
             // 
             // label4
             // 
@@ -1325,7 +1406,7 @@
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.10661F));
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.89339F));
             this.tableLayoutPanel11.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel11.Controls.Add(this.LogListView, 0, 1);
+            this.tableLayoutPanel11.Controls.Add(this.LogListBox, 0, 1);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
@@ -1347,66 +1428,16 @@
             this.label7.TabIndex = 2;
             this.label7.Text = "Log List";
             // 
-            // LogListView
+            // LogListBox
             // 
-            this.LogListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.TxRx,
-            this.Type,
-            this.Id,
-            this.Length,
-            this.Count,
-            this.TimeStamp,
-            this.Data,
-            this.Description});
-            this.LogListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogListView.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogListView.HideSelection = false;
-            this.LogListView.Location = new System.Drawing.Point(3, 49);
-            this.LogListView.Name = "LogListView";
-            this.LogListView.Size = new System.Drawing.Size(1890, 412);
-            this.LogListView.TabIndex = 3;
-            this.LogListView.UseCompatibleStateImageBehavior = false;
-            this.LogListView.View = System.Windows.Forms.View.Details;
-            // 
-            // TxRx
-            // 
-            this.TxRx.Text = "TX / RX";
-            this.TxRx.Width = 127;
-            // 
-            // Type
-            // 
-            this.Type.Text = "TYPE";
-            this.Type.Width = 186;
-            // 
-            // Id
-            // 
-            this.Id.Text = "ID";
-            this.Id.Width = 128;
-            // 
-            // Length
-            // 
-            this.Length.Text = "LENGTH";
-            this.Length.Width = 156;
-            // 
-            // Count
-            // 
-            this.Count.Text = "COUNT";
-            this.Count.Width = 138;
-            // 
-            // TimeStamp
-            // 
-            this.TimeStamp.Text = "TIMESTAMP(ms)";
-            this.TimeStamp.Width = 242;
-            // 
-            // Data
-            // 
-            this.Data.Text = "DATA";
-            this.Data.Width = 450;
-            // 
-            // Description
-            // 
-            this.Description.Text = "DESCRIPTION";
-            this.Description.Width = 885;
+            this.LogListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogListBox.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LogListBox.FormattingEnabled = true;
+            this.LogListBox.ItemHeight = 32;
+            this.LogListBox.Location = new System.Drawing.Point(3, 49);
+            this.LogListBox.Name = "LogListBox";
+            this.LogListBox.Size = new System.Drawing.Size(1890, 412);
+            this.LogListBox.TabIndex = 3;
             // 
             // TPMS
             // 
@@ -1495,15 +1526,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.ListView LogListView;
-        private System.Windows.Forms.ColumnHeader TxRx;
-        private System.Windows.Forms.ColumnHeader Type;
-        private System.Windows.Forms.ColumnHeader Id;
-        private System.Windows.Forms.ColumnHeader Length;
-        private System.Windows.Forms.ColumnHeader Count;
-        private System.Windows.Forms.ColumnHeader TimeStamp;
-        private System.Windows.Forms.ColumnHeader Data;
-        private System.Windows.Forms.ColumnHeader Description;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
@@ -1515,7 +1537,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel17;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TreeView trv_ServiceList;
+        private System.Windows.Forms.TreeView ServiceList;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel19;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel20;
@@ -1556,6 +1578,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button ReceiveDelete;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ListBox LogListBox;
     }
 }
 

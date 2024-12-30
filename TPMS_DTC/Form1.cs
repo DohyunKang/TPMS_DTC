@@ -282,7 +282,10 @@ namespace TPMS_DTC
                     logQueue.Enqueue(rxEntry);
                 }
 
-                // (선택) ListView 실시간 표시
+                // LogListBox에 표시
+                UpdateDisplay(rxEntry);
+
+                // (선택) ListBox 실시간 표시
                 //AddLogItem("RX", "STD or EXT", canIdHex, message.LEN.ToString(), 
                 //          "1", now.ToString("HH:mm:ss.fff"), dataHex, "RxMsg");
             }
@@ -357,7 +360,7 @@ namespace TPMS_DTC
             TPCANStatus stsResult = PCANBasic.Write(handleToUse, ref canMsg);
             if (stsResult == TPCANStatus.PCAN_ERROR_OK)
             {
-                MessageBox.Show("Message transmitted successfully.");
+                //MessageBox.Show("Message transmitted successfully.");
 
                 // 전송 성공 -> TX 로그
                 DateTime now = DateTime.Now;
@@ -377,6 +380,9 @@ namespace TPMS_DTC
                 {
                     logQueue.Enqueue(txEntry);
                 }
+
+                // LogListBox에 표시
+                UpdateDisplay(txEntry);
             }
             else
             {
@@ -611,49 +617,90 @@ namespace TPMS_DTC
         }
 
         //======================================================================
-        //   로그를 ListView에 표시하기 (옵션)
+        //   로그를 ListBox에 표시하기 (LogListBox)
         //======================================================================
 
         private void UpdateDisplay(string logEntry)
         {
-            if (LogListView.InvokeRequired)
+            if (LogListBox.InvokeRequired)
             {
-                LogListView.Invoke(new System.Action(() =>
+                LogListBox.Invoke(new System.Action(() =>
                 {
-                    AddLogToListView(logEntry);
+                    AddLogToListBox(logEntry);
                 }));
             }
             else
             {
-                AddLogToListView(logEntry);
+                AddLogToListBox(logEntry);
             }
         }
 
-        private void AddLogToListView(string logEntry)
+        private void AddLogToListBox(string logEntry)
         {
-            // 로그 데이터를 파싱하여 ListView에 추가
+            // 로그 데이터를 파싱하여 ListBox에 추가
             var logDetails = logEntry.Split('|'); // 로그를 "|" 기준으로 나눔
-            if (logDetails.Length >= 5)
+
+            if (logDetails.Length >= 5) // 최소한의 데이터가 있는지 확인
             {
-                ListViewItem item = new ListViewItem(logDetails[0].Trim()); // Timestamp
-                item.SubItems.Add(logDetails[1].Trim()); // Direction
-                item.SubItems.Add(logDetails[2].Trim()); // CAN ID
-                item.SubItems.Add(logDetails[3].Trim()); // Data Length
-                item.SubItems.Add(logDetails[4].Trim()); // Data
-                if (logDetails.Length > 5)
+                // 데이터 추출
+                string timestamp = logDetails[0].Trim();      // Time
+                string direction = logDetails[1].Trim();     // TxRx
+                string canId = logDetails[2].Trim().Replace("ID=", ""); // Id
+                string length = logDetails[3].Trim();        // Length
+                string data = logDetails[4].Trim();          // Data
+                string description = logDetails.Length > 5 ? logDetails[5].Trim() : ""; // Description
+
+                // Type 결정
+                string type = GetLogTypeFromData(data);
+
+                // Rx인 경우 ID가 7DE여야만 표시
+                if (direction == "RX" && canId != "7DE")
                 {
-                    item.SubItems.Add(logDetails[5].Trim()); // Description (있을 경우)
+                    return; // Rx가 아니면 추가하지 않음
                 }
 
-                LogListView.Items.Add(item);
+                // LogListBox에 추가할 텍스트 생성
+                string logText = string.Format("{0} | {1} | {2} | ID={3} | Len={4} | Data={5} | {6}",
+                    timestamp, direction, type, canId, length, data, description);
+
+                // LogListBox에 추가
+                LogListBox.Items.Add(logText);
 
                 // 표시 항목 수 제한 (예: 100개)
-                if (LogListView.Items.Count > 100)
-                    LogListView.Items.RemoveAt(0);
+                if (LogListBox.Items.Count > 100)
+                {
+                    LogListBox.Items.RemoveAt(0); // 가장 오래된 항목 제거
+                }
 
                 // 마지막 항목으로 스크롤
-                LogListView.EnsureVisible(LogListView.Items.Count - 1);
+                LogListBox.TopIndex = LogListBox.Items.Count - 1;
             }
+        }
+
+        // Type 결정 메서드 (데이터에서 tb_byte01 값 추출)
+        private string GetLogTypeFromData(string dataHex)
+        {
+            // 데이터 문자열을 배열로 변환
+            var dataBytes = dataHex.Split(' ')
+                                   .Select(b => Convert.ToByte(b, 16))
+                                   .ToArray();
+
+            // tb_byte01 값에 따라 Type 결정
+            if (dataBytes.Length > 1)
+            {
+                switch (dataBytes[1]) // tb_byte01에 해당
+                {
+                    case 0x81:
+                        return "Standard";
+                    case 0x85:
+                        return "EcuProgramming";
+                    case 0x90:
+                        return "Extended";
+                    default:
+                        return "Unknown";
+                }
+            }
+            return "Unknown";
         }
 
         //======================================================================
@@ -708,33 +755,326 @@ namespace TPMS_DTC
                 }
             }
         }
-    }
 
-    // 로그를 담을 간단한 클래스
-    public class LogEntry
-    {
-        public string Direction;   // "TX" or "RX"
-        public DateTime Timestamp;
-        public string CanIdHex;    // 예: "7B7"
-        public int DataLength;     // 0~8
-        public string DataHex;     // 예: "00 11 22 33 ..."
-        public string Description; // 추가 설명
-
-        public LogEntry(string dir, DateTime ts, string idHex, int len, string data, string desc = "")
+        // LogListBox에 Display
+        private void UpdateDisplay(LogEntry logEntry)
         {
-            Direction = dir;
-            Timestamp = ts;
-            CanIdHex = idHex;
-            DataLength = len;
-            DataHex = data;
-            Description = desc;
+            if (LogListBox.InvokeRequired)
+            {
+                LogListBox.Invoke(new System.Action(() =>
+                {
+                    AddLogToListBox(logEntry);
+                }));
+            }
+            else
+            {
+                AddLogToListBox(logEntry);
+            }
         }
 
-        public override string ToString()
+        private void AddLogToListBox(LogEntry logEntry)
         {
-            // 예) 2023-10-12 14:08:32.123 | TX | ID=7B7 | Len=8 | Data=00 11 22 33 44 55 66 77
-            return string.Format("{0:yyyy-MM-dd HH:mm:ss.fff} | {1} | ID={2} | Len={3} | Data={4} | {5}",
-                Timestamp, Direction, CanIdHex, DataLength, DataHex, Description);
+            // Rx의 경우 ID가 "7DE"일 때만 표시
+            if (logEntry.Direction == "RX" && logEntry.CanIdHex != "7DE")
+            {
+                return;
+            }
+
+            // 로그 텍스트 형식화
+            string logText = logEntry.ToString(); // LogEntry의 ToString() 메서드 활용
+
+            // LogListBox에 추가
+            LogListBox.Items.Add(logText);
+
+            // 표시 항목 수 제한 (예: 100개)
+            if (LogListBox.Items.Count > 100)
+            {
+                LogListBox.Items.RemoveAt(0); // 가장 오래된 항목 제거
+            }
+
+            // 마지막 항목으로 스크롤
+            LogListBox.TopIndex = LogListBox.Items.Count - 1;
+        }
+
+        // 명령어 즐겨찾기
+        private void ServiceList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode selectedNode = e.Node;
+            // 선택된 노드 이름에 따라 동작을 정의합니다.
+            switch (selectedNode.Name)
+            {
+                 //////////////////////////////////////
+                // === Standard Diagnostic Mode === //
+               //////////////////////////////////////
+
+                case "nodeStandard":
+                    MessageBox.Show("Standard Diagnostic Mode 선택됨");
+                    break;
+
+                case "StartDiagnostic":
+                    SendCanCommand(new byte[] { 0x10, 0x81 });
+                    break;
+
+                case "StopDiagnostic":
+                    SendCanCommand(new byte[] { 0x20 });
+                    break;
+
+                // === Read ECU Identification ID ===
+                case "VehicleProject":
+                    SendCanCommand(new byte[] { 0x1A, 0x91 });
+                    break;
+
+                case "EcuIdentification":
+                    SendCanCommand(new byte[] { 0x1A, 0x80 });
+                    break;
+
+                case "HMC/KMC":
+                    SendCanCommand(new byte[] { 0x1A, 0x86 });
+                    break;
+
+                case "VIN":
+                    SendCanCommand(new byte[] { 0x1A, 0x90 });
+                    break;
+
+                case "ReadSensors":
+                    SendCanCommand(new byte[] { 0x1A, 0x8B });
+                    break;
+
+                case "ManufacturerPart":
+                    SendCanCommand(new byte[] { 0x1A, 0x87 });
+                    break;
+
+                // === Read DTC By Status ===
+                case "ActiveFault":
+                    SendCanCommand(new byte[] { 0x18, 0x00, 0x40, 0x00 });
+                    break;
+
+                case "HistoricFault":
+                    SendCanCommand(new byte[] { 0x18, 0x01, 0x40, 0x00 });
+                    break;
+
+                // === Clear Diagnostic Information ===
+                case "ClearAll":
+                    SendCanCommand(new byte[] { 0x14, 0x40, 0x00 });
+                    break;
+
+                case "ActiveDTCS":
+                    SendCanCommand(new byte[] { 0x14, 0x40, 0x01 });
+                    break;
+
+                case "HistoricDTCS":
+                    SendCanCommand(new byte[] { 0x14, 0x40, 0x02 });
+                    break;
+
+                 ////////////////////////////////////
+                /// === ECU Programming Mode === ///
+               ////////////////////////////////////
+
+                case "nodeECUProgrammingMode":
+                    MessageBox.Show("ECU Programming Mode 선택됨");
+                    break;
+
+                case "StartDiagnostic2":
+                    SendCanCommand(new byte[] { 0x10, 0x85 });
+                    break;
+
+                // === Read Data By Local Identifier ===
+                case "ECUInputBattery":
+                    SendCanCommand(new byte[] { 0x21, 0x01 });
+                    break;
+
+                case "LampDrive":
+                    SendCanCommand(new byte[] { 0x21, 0x02 });
+                    break;
+
+                case "SensorStatus":
+                    SendCanCommand(new byte[] { 0x21, 0x06 });
+                    break;
+
+                case "EcuStatus":
+                    SendCanCommand(new byte[] { 0x21, 0xAF });
+                    break;
+
+                // === Write Data By Local Identifier ===
+                case "VehicleProject&WheelSize":
+                    SendCanCommand(new byte[] { 0x3B, 0x91 });
+                    break;
+
+                case "EcuIdentificationData":
+                    SendCanCommand(new byte[] { 0x3B, 0x80 });
+                    break;
+
+                case "HMC/KMCData":
+                    SendCanCommand(new byte[] { 0x3B, 0x86 });
+                    break;
+
+                case "VINData":
+                    SendCanCommand(new byte[] { 0x3B, 0x90 });
+                    break;
+
+                case "SensorIDType":
+                    SendCanCommand(new byte[] { 0x3B, 0x8B });
+                    break;
+
+                case "ManufacturePartInfo":
+                    SendCanCommand(new byte[] { 0x3B, 0x87 });
+                    break;
+
+                //////////////////////////////////////
+                // === Standard Diagnostic Mode === //
+                //////////////////////////////////////
+
+                case "nodeExtended":
+                    MessageBox.Show("Extended Diagnostic Mode 선택됨");
+                    break;
+
+                case "StartDiagnostic3":
+                    SendCanCommand(new byte[] { 0x10, 0x90 });
+                    break;
+
+                case "StopDiagnostic2":
+                    SendCanCommand(new byte[] { 0x20 });
+                    break;
+
+                // === Read ECU Identification ID ===
+                case "VehicleProject2":
+                    SendCanCommand(new byte[] { 0x1A, 0x91 });
+                    break;
+
+                case "EcuIdentification2":
+                    SendCanCommand(new byte[] { 0x1A, 0x80 });
+                    break;
+
+                case "HMC/KMC2":
+                    SendCanCommand(new byte[] { 0x1A, 0x86 });
+                    break;
+
+                case "VIN2":
+                    SendCanCommand(new byte[] { 0x1A, 0x90 });
+                    break;
+
+                case "ReadSensors2":
+                    SendCanCommand(new byte[] { 0x1A, 0x8B });
+                    break;
+
+                case "ManufacturerPart2":
+                    SendCanCommand(new byte[] { 0x1A, 0x87 });
+                    break;
+
+                default:
+                    MessageBox.Show("알 수 없는 노드 선택됨: {0}", selectedNode.Text);
+                    break;
+            }
+        }
+
+        // CAN 명령 데이터를 tb_byte0 ~ tb_byte7에 적용하는 함수
+        private void SendCanCommand(byte[] command)
+        {
+            // 명령 데이터가 7바이트 초과인 경우 에러 처리 (tb_byte1 ~ tb_byte7 사용 가능)
+            /*
+            if (command.Length > 7)
+            {
+                MessageBox.Show("데이터는 최대 7바이트까지 허용됩니다. (tb_byte1 ~ tb_byte7)");
+                return;
+            }*/
+
+            // tb_byte0에 데이터 길이 적용
+            Control[] box0 = this.Controls.Find("tb_byte0", true); // tb_byte0 찾기
+            if (box0.Length > 0 && box0[0] is TextBox)
+            {
+                TextBox textBox0 = (TextBox)box0[0];
+                textBox0.Text = string.Format("{0:X2}", command.Length); // 데이터 길이를 16진수로 설정
+            }
+
+            // tb_byte1 ~ tb_byte7 TextBox 컨트롤에 명령 데이터 적용
+            for (int i = 0; i < 7; i++) // 최대 7바이트 적용 가능
+            {
+                string boxName = string.Format("tb_byte{0}", i + 1); // TextBox 이름 생성 (tb_byte1부터 시작)
+                Control[] boxes = this.Controls.Find(boxName, true); // TextBox 컨트롤 찾기
+
+                if (boxes.Length > 0 && boxes[0] is TextBox) // TextBox가 존재하고 올바른 타입인지 확인
+                {
+                    TextBox textBox = (TextBox)boxes[0]; // TextBox로 캐스팅
+                    if (i < command.Length)
+                    {
+                        // 명령 데이터 적용
+                        textBox.Text = string.Format("{0:X2}", command[i]);
+                    }
+                    else
+                    {
+                        // 나머지는 00으로 채우기
+                        textBox.Text = "00";
+                    }
+                }
+            }
+
+            // 명령 데이터 적용 결과를 메시지로 출력
+            string[] commandHexArray = new string[command.Length];
+            for (int i = 0; i < command.Length; i++)
+            {
+                commandHexArray[i] = string.Format("0x{0:X2}", command[i]);
+            }
+
+            string commandString = string.Join(" ", commandHexArray);
+            MessageBox.Show(string.Format("tb_byte0 ~ tb_byte7에 데이터가 적용되었습니다. tb_byte0: {0:X2}, 데이터: {1}", command.Length, commandString));
+        }
+
+        // 로그를 담을 간단한 클래스
+        public class LogEntry
+        {
+            public string Direction;   // "TX" or "RX"
+
+            public DateTime Timestamp;
+            public string CanIdHex;    // 예: "7D6"
+            public int DataLength;     // 0~8
+            public string DataHex;     // 예: "00 11 22 33 ..."
+            public string Description; // 추가 설명
+
+            public LogEntry(string dir, DateTime ts, string idHex, int len, string data, string desc = "")
+            {
+                Direction = dir;
+                Timestamp = ts;
+                CanIdHex = idHex;
+                DataLength = len;
+                DataHex = data;
+                Description = desc;
+            }
+
+            public override string ToString()
+            {
+                // Type 결정 (tb_byte01 값으로 결정)
+                string type = GetLogTypeFromData(DataHex);
+
+                // 예) 2023-10-12 14:08:32.123 | TX | Standard | ID=7B7 | Len=8 | Data=00 11 22 33 44 55 66 77
+                return string.Format("{0:yyyy-MM-dd HH:mm:ss.fff} | {1} | {2} | ID={3} | Len={4} | Data={5} | {6}",
+                    Timestamp, Direction, type, CanIdHex, DataLength, DataHex, Description);
+            }
+
+            // Type 결정 메서드 (데이터에서 tb_byte01 값 추출)
+            private string GetLogTypeFromData(string dataHex)
+            {
+                // 데이터 문자열을 배열로 변환
+                var dataBytes = dataHex.Split(' ')
+                                       .Select(b => Convert.ToByte(b, 16))
+                                       .ToArray();
+
+                // tb_byte01 값에 따라 Type 결정
+                if (dataBytes.Length > 1)
+                {
+                    switch (dataBytes[2]) // tb_byte01에 해당
+                    {
+                        case 0x81:
+                            return "Standard";
+                        case 0x85:
+                            return "EcuProgramming";
+                        case 0x90:
+                            return "Extended";
+                        default:
+                            return "Unknown";
+                    }
+                }
+                return "Unknown";
+            }
         }
     }
 }
