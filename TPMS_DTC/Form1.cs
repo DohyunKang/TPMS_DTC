@@ -59,6 +59,9 @@ namespace TPMS_DTC
         private string rxLogFile = "RxLog.txt";
         private string allLogFile = "AllLog.txt";
 
+        // 현재 모드 상태를 저장할 변수
+        private string currentType1 = "Unknown";
+
         public TPMS()
         {
             InitializeComponent();
@@ -266,14 +269,46 @@ namespace TPMS_DTC
                 DateTime now = DateTime.Now;
                 string canIdHex = message.ID.ToString("X3");
                 string dataHex = string.Join(" ", message.DATA.Take(message.LEN).Select(b => b.ToString("X2")));
+                string type = GetLogTypeFromData(dataHex); // Type 정의
+                string description = "RxMsg"; // 기본 설명
+
+                // 에러 코드 식별 (0번째 바이트: 01, 1번째 바이트에 따라 결정)
+                if (canIdHex == "7DE" && message.LEN > 1 && message.DATA[1] == 0x7F)
+                {
+                    switch (message.DATA[3])
+                    {
+                        case 0x11:
+                            description = "Error: ServiceNotSupported";
+                            break;
+                        case 0x12:
+                            description = "Error: SubFunctionNotSupport-invalidFormat";
+                            break;
+                        case 0x13:
+                            description = "Error: IncorrectMessageLengthOrInvalidFormat";
+                            break;
+                        case 0x21:
+                            description = "Error: Busy – repeatRequest";
+                            break;
+                        case 0x22:
+                            description = "Error: conditionsNotCorrect / requenstSequenceError";
+                            break;
+                        case 0x78:
+                            description = "Error: requestCorrectlyReceived-ResponsePending";
+                            break;
+                        default:
+                            description = "Error: Unknown Error Code";
+                            break;
+                    }
+                }
 
                 LogEntry rxEntry = new LogEntry(
                     "RX",
                     now,
+                    type,
                     canIdHex,
                     message.LEN,
                     dataHex,
-                    "RxMsg"
+                    description
                 );
 
                 // 큐에 저장
@@ -284,10 +319,6 @@ namespace TPMS_DTC
 
                 // LogListBox에 표시
                 UpdateDisplay(rxEntry);
-
-                // (선택) ListBox 실시간 표시
-                //AddLogItem("RX", "STD or EXT", canIdHex, message.LEN.ToString(), 
-                //          "1", now.ToString("HH:mm:ss.fff"), dataHex, "RxMsg");
             }
         }
 
@@ -316,10 +347,14 @@ namespace TPMS_DTC
             }
 
             DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-            // 열에서 CAN ID / DATA / FRAME TYPE 가져오기
+            // 열에서 CAN ID / SID / DATA / FRAME TYPE 가져오기
             string canIdHex = selectedRow.Cells[0].Value.ToString();
-            string dataString = selectedRow.Cells[1].Value.ToString();
-            string frameType = selectedRow.Cells[2].Value.ToString();
+            string sid = selectedRow.Cells[1].Value.ToString();
+            string dataString = selectedRow.Cells[2].Value.ToString();
+            string frameType = selectedRow.Cells[3].Value.ToString();
+
+            // SID + Data 값을 생성
+            string fullDataString = sid + " " + dataString;
 
             // CAN 메시지 만들기
             TPCANMsg canMsg = new TPCANMsg();
@@ -340,7 +375,7 @@ namespace TPMS_DTC
             }
 
             // DATA 파싱
-            string[] dataHexArr = dataString.Split(' ');
+            string[] dataHexArr = fullDataString.Split(' ');
             byte[] msgData = new byte[8];
             for (int i = 0; i < 8; i++)
             {
@@ -356,12 +391,12 @@ namespace TPMS_DTC
             canMsg.DATA = msgData;
             canMsg.LEN = 8;
 
+            string type = GetLogTypeFromData(fullDataString); // Type 정의
+
             // 전송
             TPCANStatus stsResult = PCANBasic.Write(handleToUse, ref canMsg);
             if (stsResult == TPCANStatus.PCAN_ERROR_OK)
             {
-                //MessageBox.Show("Message transmitted successfully.");
-
                 // 전송 성공 -> TX 로그
                 DateTime now = DateTime.Now;
                 string dataHex = string.Join(" ", msgData.Take(8).Select(b => b.ToString("X2")));
@@ -369,6 +404,7 @@ namespace TPMS_DTC
                 LogEntry txEntry = new LogEntry(
                     "TX",
                     now,
+                    type,
                     canIdHex,
                     canMsg.LEN,
                     dataHex,
@@ -423,13 +459,19 @@ namespace TPMS_DTC
                 }
             }
 
-            string dataString = string.Join(" ", dataHexArray.Select(s => s.ToUpper()));
-            string frameType = "STD"; // 기본
+            string sid = dataHexArray[0]; 
+            string dataString = string.Join(" ", dataHexArray.Skip(1).Select(s => s.ToUpper()));
+            //string frameType = GetLogTypeFromData(dataString);
+            currentType1 = GetLogTypeFromData(dataString);
+            string frameType = currentType1;
+            //string description = GetDescription(sid);
 
             int rowIndex = dataGridView1.Rows.Add();
             dataGridView1.Rows[rowIndex].Cells[0].Value = msgIdHex.ToUpper();
-            dataGridView1.Rows[rowIndex].Cells[1].Value = dataString;
-            dataGridView1.Rows[rowIndex].Cells[2].Value = frameType;
+            dataGridView1.Rows[rowIndex].Cells[1].Value = sid;
+            dataGridView1.Rows[rowIndex].Cells[2].Value = dataString;
+            dataGridView1.Rows[rowIndex].Cells[3].Value = frameType;
+            dataGridView1.Rows[rowIndex].Cells[4].Value = Descryption;
 
             MessageBox.Show("Message Created / Added to Grid.");
         }
@@ -616,67 +658,6 @@ namespace TPMS_DTC
             }
         }
 
-        //======================================================================
-        //   로그를 ListBox에 표시하기 (LogListBox)
-        //======================================================================
-
-        private void UpdateDisplay(string logEntry)
-        {
-            if (LogListBox.InvokeRequired)
-            {
-                LogListBox.Invoke(new System.Action(() =>
-                {
-                    AddLogToListBox(logEntry);
-                }));
-            }
-            else
-            {
-                AddLogToListBox(logEntry);
-            }
-        }
-
-        private void AddLogToListBox(string logEntry)
-        {
-            // 로그 데이터를 파싱하여 ListBox에 추가
-            var logDetails = logEntry.Split('|'); // 로그를 "|" 기준으로 나눔
-
-            if (logDetails.Length >= 5) // 최소한의 데이터가 있는지 확인
-            {
-                // 데이터 추출
-                string timestamp = logDetails[0].Trim();      // Time
-                string direction = logDetails[1].Trim();     // TxRx
-                string canId = logDetails[2].Trim().Replace("ID=", ""); // Id
-                string length = logDetails[3].Trim();        // Length
-                string data = logDetails[4].Trim();          // Data
-                string description = logDetails.Length > 5 ? logDetails[5].Trim() : ""; // Description
-
-                // Type 결정
-                string type = GetLogTypeFromData(data);
-
-                // Rx인 경우 ID가 7DE여야만 표시
-                if (direction == "RX" && canId != "7DE")
-                {
-                    return; // Rx가 아니면 추가하지 않음
-                }
-
-                // LogListBox에 추가할 텍스트 생성
-                string logText = string.Format("{0} | {1} | {2} | ID={3} | Len={4} | Data={5} | {6}",
-                    timestamp, direction, type, canId, length, data, description);
-
-                // LogListBox에 추가
-                LogListBox.Items.Add(logText);
-
-                // 표시 항목 수 제한 (예: 100개)
-                if (LogListBox.Items.Count > 100)
-                {
-                    LogListBox.Items.RemoveAt(0); // 가장 오래된 항목 제거
-                }
-
-                // 마지막 항목으로 스크롤
-                LogListBox.TopIndex = LogListBox.Items.Count - 1;
-            }
-        }
-
         // Type 결정 메서드 (데이터에서 tb_byte01 값 추출)
         private string GetLogTypeFromData(string dataHex)
         {
@@ -691,16 +672,22 @@ namespace TPMS_DTC
                 switch (dataBytes[1]) // tb_byte01에 해당
                 {
                     case 0x81:
-                        return "Standard";
+                        currentType1 = "Standard";
+                        break;
                     case 0x85:
-                        return "EcuProgramming";
+                        currentType1 = "EcuProgramming";
+                        break;
                     case 0x90:
-                        return "Extended";
+                        currentType1 = "Extended";
+                        break;
                     default:
-                        return "Unknown";
+                        // 새로운 모드 코드가 아닌 경우, 기존 상태 유지
+                        break;
                 }
             }
-            return "Unknown";
+
+            // 현재 상태 반환
+            return currentType1;
         }
 
         //======================================================================
@@ -756,7 +743,9 @@ namespace TPMS_DTC
             }
         }
 
-        // LogListBox에 Display
+        //======================================================================
+        //   로그 디스플레이 메서드 : logEntry 받아서 ListBox에 표시
+        //======================================================================
         private void UpdateDisplay(LogEntry logEntry)
         {
             if (LogListBox.InvokeRequired)
@@ -796,7 +785,9 @@ namespace TPMS_DTC
             LogListBox.TopIndex = LogListBox.Items.Count - 1;
         }
 
-        // 명령어 즐겨찾기
+        //======================================================================
+        //   명령어 즐겨찾기, 명령어 tb_byte에 적용, 로그 String 생성 메서드
+        //======================================================================
         private void ServiceList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode selectedNode = e.Node;
@@ -897,31 +888,35 @@ namespace TPMS_DTC
 
                 // === Write Data By Local Identifier ===
                 case "VehicleProject&WheelSize":
-                    SendCanCommand(new byte[] { 0x3B, 0x91 });
+                    SendCanCommand(new byte[] { 0x3B, 0x91, 0x46, 0x53, 0x31, 0x54, 0x00, 0x00 });
                     break;
 
-                case "EcuIdentificationData":
-                    SendCanCommand(new byte[] { 0x3B, 0x80 });
+                case "ECUIdentificationData":
+                    SendCanCommand(new byte[] { 0x3B, 0x80, 0x54, 0x50, 0x4D, 0x53, 0x48, 0x49, 0x47, 0x48, 0x5F, 0x4C, 0x49, 0x4E, 0x45});
                     break;
 
                 case "HMC/KMCData":
-                    SendCanCommand(new byte[] { 0x3B, 0x86 });
+                    SendCanCommand(new byte[] { 0x3B, 0x86, 0x04, 0x02, 0x02 });
                     break;
 
                 case "VINData":
-                    SendCanCommand(new byte[] { 0x3B, 0x90 });
+                    SendCanCommand(new byte[] { 0x3B, 0x90, 0x56, 0x49, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                     break;
 
                 case "SensorIDType":
-                    SendCanCommand(new byte[] { 0x3B, 0x8B });
+                    SendCanCommand(new byte[] { 0x3B, 0x8B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                     break;
 
                 case "ManufacturePartInfo":
-                    SendCanCommand(new byte[] { 0x3B, 0x87 });
+                    SendCanCommand(new byte[] { 0x3B, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                    , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                    , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                    , 0x31, 0x30, 0x31, 0x30
+                    , 0x00, 0x00, 0x00, 0x00});
                     break;
 
                 //////////////////////////////////////
-                // === Standard Diagnostic Mode === //
+                // === Extended Diagnostic Mode === //
                 //////////////////////////////////////
 
                 case "nodeExtended":
@@ -970,53 +965,180 @@ namespace TPMS_DTC
         // CAN 명령 데이터를 tb_byte0 ~ tb_byte7에 적용하는 함수
         private void SendCanCommand(byte[] command)
         {
-            // 명령 데이터가 7바이트 초과인 경우 에러 처리 (tb_byte1 ~ tb_byte7 사용 가능)
-            /*
+            // 명령 데이터가 7바이트 초과인 경우 SF로 하지않고 FF, CF 방식으로 진행
             if (command.Length > 7)
             {
-                MessageBox.Show("데이터는 최대 7바이트까지 허용됩니다. (tb_byte1 ~ tb_byte7)");
-                return;
-            }*/
+                //여기에 로직을 작성해주세요. SF방식은 tb_byte0~ tb_byte7에 적용해서 transmit을 눌러진행했지만, 여기서는 바로 설정해서 FF, CF를 보내줄 수 있게 짜봅시다.
+                // FF 방식으로 메시지 전송
+                SendFirstFrame(command);
 
-            // tb_byte0에 데이터 길이 적용
-            Control[] box0 = this.Controls.Find("tb_byte0", true); // tb_byte0 찾기
-            if (box0.Length > 0 && box0[0] is TextBox)
-            {
-                TextBox textBox0 = (TextBox)box0[0];
-                textBox0.Text = string.Format("{0:X2}", command.Length); // 데이터 길이를 16진수로 설정
+                // CF 방식으로 메시지 전송
+                SendConsecutiveFrames(command);
             }
-
-            // tb_byte1 ~ tb_byte7 TextBox 컨트롤에 명령 데이터 적용
-            for (int i = 0; i < 7; i++) // 최대 7바이트 적용 가능
+            else
             {
-                string boxName = string.Format("tb_byte{0}", i + 1); // TextBox 이름 생성 (tb_byte1부터 시작)
-                Control[] boxes = this.Controls.Find(boxName, true); // TextBox 컨트롤 찾기
-
-                if (boxes.Length > 0 && boxes[0] is TextBox) // TextBox가 존재하고 올바른 타입인지 확인
+                // tb_byte0에 데이터 길이 적용
+                Control[] box0 = this.Controls.Find("tb_byte0", true); // tb_byte0 찾기
+                if (box0.Length > 0 && box0[0] is TextBox)
                 {
-                    TextBox textBox = (TextBox)boxes[0]; // TextBox로 캐스팅
-                    if (i < command.Length)
+                    TextBox textBox0 = (TextBox)box0[0];
+                    textBox0.Text = string.Format("{0:X2}", command.Length); // 데이터 길이를 16진수로 설정
+                }
+
+                // tb_byte1 ~ tb_byte7 TextBox 컨트롤에 명령 데이터 적용
+                for (int i = 0; i < 7; i++) // 최대 7바이트 적용 가능
+                {
+                    string boxName = string.Format("tb_byte{0}", i + 1); // TextBox 이름 생성 (tb_byte1부터 시작)
+                    Control[] boxes = this.Controls.Find(boxName, true); // TextBox 컨트롤 찾기
+
+                    if (boxes.Length > 0 && boxes[0] is TextBox) // TextBox가 존재하고 올바른 타입인지 확인
                     {
-                        // 명령 데이터 적용
-                        textBox.Text = string.Format("{0:X2}", command[i]);
-                    }
-                    else
-                    {
-                        // 나머지는 00으로 채우기
-                        textBox.Text = "00";
+                        TextBox textBox = (TextBox)boxes[0]; // TextBox로 캐스팅
+                        if (i < command.Length)
+                        {
+                            // 명령 데이터 적용
+                            textBox.Text = string.Format("{0:X2}", command[i]);
+                        }
+                        else
+                        {
+                            // 나머지는 00으로 채우기
+                            textBox.Text = "00";
+                        }
                     }
                 }
-            }
 
-            // 명령 데이터 적용 결과를 메시지로 출력
-            string[] commandHexArray = new string[command.Length];
-            for (int i = 0; i < command.Length; i++)
+                // 명령 데이터 적용 결과를 메시지로 출력
+                string[] commandHexArray = new string[command.Length];
+                for (int i = 0; i < command.Length; i++)
+                {
+                    commandHexArray[i] = string.Format("0x{0:X2}", command[i]);
+                }
+
+                string commandString = string.Join(" ", commandHexArray);
+                MessageBox.Show(string.Format("tb_byte0 ~ tb_byte7에 데이터가 적용되었습니다. tb_byte0: {0:X2}, 데이터: {1}", command.Length, commandString));
+            }
+        }
+
+        private void SendFirstFrame(byte[] command)
+        {
+            // FF 데이터 구성
+            int totalLength = command.Length;
+            byte[] firstFrame = new byte[8];
+
+            // FF Header: N_PCI (4-bit 타입 + 12-bit 전체 길이)
+            firstFrame[0] = (byte)((0x10) | ((totalLength >> 8) & 0x0F));
+            firstFrame[1] = (byte)(totalLength & 0xFF);
+
+            // FF Payload: 데이터의 첫 부분
+            Array.Copy(command, 0, firstFrame, 2, 6);
+
+            // CAN 메시지로 전송
+            SendCanMessage(0x7D6, firstFrame, "First Frame");
+        }
+
+        private void SendConsecutiveFrames(byte[] command)
+        {
+            // CF 데이터 구성
+            int totalLength = command.Length;
+            int sentBytes = 6; // FF에서 이미 6바이트 전송
+            int sequenceNumber = 1;
+
+            while (sentBytes < totalLength)
             {
-                commandHexArray[i] = string.Format("0x{0:X2}", command[i]);
-            }
+                byte[] consecutiveFrame = new byte[8];
+                consecutiveFrame[0] = (byte)((0x20) | (sequenceNumber & 0x0F)); // CF Header: N_PCI (4-bit 타입 + 4-bit 시퀀스 번호)
 
-            string commandString = string.Join(" ", commandHexArray);
-            MessageBox.Show(string.Format("tb_byte0 ~ tb_byte7에 데이터가 적용되었습니다. tb_byte0: {0:X2}, 데이터: {1}", command.Length, commandString));
+                int remainingBytes = totalLength - sentBytes;
+                int bytesToSend = Math.Min(remainingBytes, 7);
+
+                Array.Copy(command, sentBytes, consecutiveFrame, 1, bytesToSend);
+                sentBytes += bytesToSend;
+
+                // CAN 메시지로 전송
+                SendCanMessage(0x7D6, consecutiveFrame, String.Format("Consecutive Frame {0}", sequenceNumber));
+
+                // 시퀀스 번호 증가
+                sequenceNumber = (sequenceNumber + 1) % 16;
+
+                // STmin 대기 시간 (5ms로 가정)
+                Thread.Sleep(5);
+            }
+        }
+
+        private void SendCanMessage(uint canId, byte[] message, string description)
+        {
+            // CAN 메시지 설정
+            TPCANMsg canMessage = new TPCANMsg();
+            canMessage.ID = canId;
+            canMessage.LEN = (byte)message.Length;
+            canMessage.DATA = message;
+
+            // CAN 메시지 전송
+            TPCANStatus status = PCANBasic.Write(m_PcanHandleCH1, ref canMessage);
+
+            if (status == TPCANStatus.PCAN_ERROR_OK)
+            {
+                // 성공적으로 전송된 경우 로그 추가
+                DateTime now = DateTime.Now;
+                string dataHex = String.Join(" ", message.Select(b => b.ToString("X2")).ToArray());
+
+                string logEntry = String.Format("{0:yyyy-MM-dd HH:mm:ss.fff} | TX | ID={1:X3} | Len={2} | Data={3} | {4}",
+                    now, canId, message.Length, dataHex, description);
+
+                // LogListBox에 추가
+                UpdateDisplay(logEntry);
+
+                // TxLog.txt에 기록
+                SaveTxLog(logEntry);
+            }
+            else
+            {
+                MessageBox.Show(String.Format("CAN 메시지 전송 실패: {0}", status.ToString()));
+            }
+        }
+
+        private void SaveTxLog(string logEntry)
+        {
+            string txPath = Path.Combine(folderPath, txLogFile);
+
+            // 로그를 TxLog.txt에 저장
+            using (StreamWriter sw = new StreamWriter(txPath, true))
+            {
+                sw.WriteLine(logEntry);
+            }
+        }
+
+        private void UpdateDisplay(string logEntry)
+        {
+            if (LogListBox.InvokeRequired)
+            {
+                LogListBox.Invoke(new System.Action(() =>
+                {
+                    LogListBox.Items.Add(logEntry);
+
+                    // 표시 항목 수 제한 (예: 100개)
+                    if (LogListBox.Items.Count > 100)
+                    {
+                        LogListBox.Items.RemoveAt(0);
+                    }
+
+                    // 마지막 항목으로 스크롤
+                    LogListBox.TopIndex = LogListBox.Items.Count - 1;
+                }));
+            }
+            else
+            {
+                LogListBox.Items.Add(logEntry);
+
+                // 표시 항목 수 제한 (예: 100개)
+                if (LogListBox.Items.Count > 100)
+                {
+                    LogListBox.Items.RemoveAt(0);
+                }
+
+                // 마지막 항목으로 스크롤
+                LogListBox.TopIndex = LogListBox.Items.Count - 1;
+            }
         }
 
         // 로그를 담을 간단한 클래스
@@ -1029,11 +1151,13 @@ namespace TPMS_DTC
             public int DataLength;     // 0~8
             public string DataHex;     // 예: "00 11 22 33 ..."
             public string Description; // 추가 설명
-
-            public LogEntry(string dir, DateTime ts, string idHex, int len, string data, string desc = "")
+            public string Type;
+            
+            public LogEntry(string dir, DateTime ts, string type, string idHex, int len, string data, string desc = "")
             {
                 Direction = dir;
                 Timestamp = ts;
+                Type = type; 
                 CanIdHex = idHex;
                 DataLength = len;
                 DataHex = data;
@@ -1042,14 +1166,12 @@ namespace TPMS_DTC
 
             public override string ToString()
             {
-                // Type 결정 (tb_byte01 값으로 결정)
-                string type = GetLogTypeFromData(DataHex);
-
                 // 예) 2023-10-12 14:08:32.123 | TX | Standard | ID=7B7 | Len=8 | Data=00 11 22 33 44 55 66 77
                 return string.Format("{0:yyyy-MM-dd HH:mm:ss.fff} | {1} | {2} | ID={3} | Len={4} | Data={5} | {6}",
-                    Timestamp, Direction, type, CanIdHex, DataLength, DataHex, Description);
+                    Timestamp, Direction, Type, CanIdHex, DataLength, DataHex, Description);
             }
-
+            
+            
             // Type 결정 메서드 (데이터에서 tb_byte01 값 추출)
             private string GetLogTypeFromData(string dataHex)
             {
@@ -1061,20 +1183,43 @@ namespace TPMS_DTC
                 // tb_byte01 값에 따라 Type 결정
                 if (dataBytes.Length > 1)
                 {
-                    switch (dataBytes[2]) // tb_byte01에 해당
+                    switch (dataBytes[1]) // tb_byte01에 해당
                     {
                         case 0x81:
-                            return "Standard";
+                             Type = "Standard";
+                             break;
                         case 0x85:
-                            return "EcuProgramming";
+                             Type ="EcuProgramming";
+                             break;
                         case 0x90:
-                            return "Extended";
+                             Type = "Extended";
+                             break;
                         default:
-                            return "Unknown";
+                             break;
                     }
                 }
                 return "Unknown";
             }
+        }
+
+        //Rx 에러 메세지 글자 빨간색 처리
+        private void LogListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+
+            // 현재 항목 가져오기
+            string itemText = LogListBox.Items[e.Index].ToString();
+
+            // 기본 배경과 텍스트 색상 설정
+            e.DrawBackground();
+
+            // 텍스트 색상 변경 (Description이 "Error"로 시작하는 경우 빨간색)
+            Brush textBrush = itemText.Contains("Error") ? Brushes.Red : Brushes.Black;
+
+            // 텍스트 그리기
+            e.Graphics.DrawString(itemText, e.Font, textBrush, e.Bounds);
+
+            e.DrawFocusRectangle();
         }
     }
 }
