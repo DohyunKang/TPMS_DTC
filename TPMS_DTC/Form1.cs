@@ -339,9 +339,13 @@ namespace TPMS_DTC
                             break;
                     }
                 }
-                else
+                else if(canIdHex == "7DE")
                 {
                     description = "Rx of " + data_description;
+                }
+                else
+                {
+                    description = "There is no Tx";
                 }
 
                 LogEntry rxEntry = new LogEntry(
