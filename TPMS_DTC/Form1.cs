@@ -288,7 +288,7 @@ namespace TPMS_DTC
                     // FC 전송 준비
                     SendFlowControl(handle, blockSize: 0, stMin: 5);
 
-                    description = "First Frame";
+                    description = "First Frame(" + data_description + ")";
                     type = "MultiFrame";
                 }
                 else if (message.DATA[0] >= 0x21 && message.DATA[0] <= 0x30) // Consecutive Frame (CF)
@@ -304,7 +304,7 @@ namespace TPMS_DTC
                         receivedData.Clear();
                         expectedDataLength = 0;
 
-                        description = "Complete MultiFrame";
+                        description = "Complete MultiFrame(" + data_description + ")";
                     }
                     else
                     {
@@ -312,9 +312,7 @@ namespace TPMS_DTC
                         SendFlowControl(handle, blockSize: 0, stMin: 5);
                     }
                 }
-
-                // 에러 코드 식별 (0번째 바이트: 01, 1번째 바이트에 따라 결정)
-                if (canIdHex == "7DE" && message.LEN > 1 && message.DATA[1] == 0x7F)
+                else if (canIdHex == "7DE" && message.LEN > 1 && message.DATA[1] == 0x7F) // 에러 코드 식별 (0번째 바이트: 01, 1번째 바이트에 따라 결정)
                 {
                     switch (message.DATA[3])
                     {
@@ -340,6 +338,10 @@ namespace TPMS_DTC
                             description = "Error: Unknown Error Code";
                             break;
                     }
+                }
+                else
+                {
+                    description = "Rx of " + data_description;
                 }
 
                 LogEntry rxEntry = new LogEntry(
@@ -567,7 +569,7 @@ namespace TPMS_DTC
                     canIdHex,
                     canMsg.LEN,
                     dataHex,
-                    "Flow Control Tx"
+                    "Flow Control TX(" + data_description + ")"
                 );
 
                 // 큐에 넣기
