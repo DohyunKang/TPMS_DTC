@@ -69,6 +69,10 @@ namespace TPMS_DTC
         //Tx 메세지의 Description을 처리하기 위한 변수 선언
         private string data_description = "Unkwnon";
 
+        // 이전 시간과 현재 시간 기록을 위한 변수
+        private double previousTimestamp = 0.0; // 이전 타임스탬프
+        private int count = 0; // Count 값
+
         public TPMS()
         {
             InitializeComponent();
@@ -288,7 +292,7 @@ namespace TPMS_DTC
                     // FC 전송 준비
                     SendFlowControl(handle, blockSize: 0, stMin: 5);
 
-                    description = "First Frame : " + data_description ;
+                    description = "First Frame : " + data_description;
                     type = "MultiFrame";
                 }
                 else if (message.DATA[0] >= 0x21 && message.DATA[0] < 0x30) // Consecutive Frame (CF)
@@ -312,7 +316,7 @@ namespace TPMS_DTC
                         SendFlowControl(handle, blockSize: 0, stMin: 5);
                     }
                 }
-                else if(message.DATA[0] == 0x30)
+                else if (message.DATA[0] == 0x30)
                 {
                     type = "Flow Control";
                     description = "Flow Control RX : " + data_description;
@@ -344,13 +348,15 @@ namespace TPMS_DTC
                             break;
                     }
                 }
-                else if(canIdHex == "7DE")
+                else if (canIdHex == "7DE")
                 {
                     description = "Response : " + data_description;
                 }
-                else
+                
+                if (canIdHex == "593")
                 {
                     description = "There is no Tx";
+                    ProcessTimestamp(timestamp);
                 }
 
                 LogEntry rxEntry = new LogEntry(
@@ -371,6 +377,43 @@ namespace TPMS_DTC
 
                 // LogListBox에 표시
                 UpdateDisplay(rxEntry);
+            }
+        }
+
+        private void ProcessTimestamp(TPCANTimestamp timestamp)
+        {
+            // 현재 타임스탬프 계산 (마이크로초 단위로 변환)
+            double currentTimestamp = timestamp.millis + (timestamp.micros / 1000.0);
+
+            // Cycle 계산
+            if (previousTimestamp != 0.0)
+            {
+                double cycle = currentTimestamp - previousTimestamp; // 이전 타임스탬프와 현재 타임스탬프의 차이 계산
+                UpdateLabelSafely(CycleLav, cycle.ToString("F2")); // 소수점 2자리까지 표시
+            }
+            else
+            {
+                UpdateLabelSafely(CycleLav, "0.0"); // 이전 타임스탬프가 없으면 0.0으로 표시
+            }
+
+            // 이전 타임스탬프 업데이트
+            previousTimestamp = currentTimestamp;
+
+            // Count 증가 및 업데이트
+            count++;
+            UpdateLabelSafely(CountLav, count.ToString());
+        }
+
+        // UI 라벨 업데이트 메서드 (스레드 안전 처리)
+        private void UpdateLabelSafely(Label label, string text)
+        {
+            if (label.InvokeRequired)
+            {
+                label.Invoke((MethodInvoker)(() => label.Text = text));
+            }
+            else
+            {
+                label.Text = text;
             }
         }
 
@@ -649,7 +692,7 @@ namespace TPMS_DTC
                 }
             }
 
-            string sid = dataHexArray[0]; 
+            string sid = dataHexArray[0];
             string dataString = string.Join(" ", dataHexArray.Skip(1).Select(s => s.ToUpper()));
             //string frameType = GetLogTypeFromData(dataString);
             currentType1 = GetLogTypeFromData(dataString);
@@ -961,7 +1004,7 @@ namespace TPMS_DTC
         //===============================================================================================
         //   명령어 즐겨찾기, 명령어 tb_byte에 적용, 로그 String 생성 메서드, description 별개 생성 메서드
         //===============================================================================================
-        
+
         // 명령어 즐겨찾기 하드 코딩
         private void ServiceList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -969,9 +1012,9 @@ namespace TPMS_DTC
             // 선택된 노드 이름에 따라 동작을 정의합니다.
             switch (selectedNode.Name)
             {
-                 //////////////////////////////////////
+                //////////////////////////////////////
                 // === Standard Diagnostic Mode === //
-               //////////////////////////////////////
+                //////////////////////////////////////
 
                 case "nodeStandard":
                     MessageBox.Show("Standard Diagnostic Mode 선택됨");
@@ -981,87 +1024,87 @@ namespace TPMS_DTC
                 case "StartDiagnostic":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x10, 0x81 });
-                    
+
                     break;
 
                 case "StopDiagnostic":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x20 });
-                    
+
                     break;
 
                 // === Read ECU Identification ID ===
                 case "VehicleProject":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x91 });
-                    
+
                     break;
 
                 case "EcuIdentification":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x80 });
-                    
+
                     break;
 
                 case "HMC/KMC":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x86 });
-                    
+
                     break;
 
                 case "VIN":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x90 });
-                    
+
                     break;
 
                 case "ReadSensors":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x8B });
-                    
+
                     break;
 
                 case "ManufacturerPart":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x87 });
-                    
+
                     break;
 
                 // === Read DTC By Status ===
                 case "ActiveFault":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x18, 0x00, 0x40, 0x00 });
-                    
+
                     break;
 
                 case "HistoricFault":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x18, 0x01, 0x40, 0x00 });
-                    
+
                     break;
 
                 // === Clear Diagnostic Information ===
                 case "ClearAll":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x14, 0x40, 0x00 });
-                    
+
                     break;
 
                 case "ActiveDTCS":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x14, 0x40, 0x01 });
-                   
+
                     break;
 
                 case "HistoricDTCS":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x14, 0x40, 0x02 });
-                    
+
                     break;
 
-                 ////////////////////////////////////
+                ////////////////////////////////////
                 /// === ECU Programming Mode === ///
-               ////////////////////////////////////
+                ////////////////////////////////////
 
                 case "nodeECUProgrammingMode":
                     MessageBox.Show("ECU Programming Mode 선택됨");
@@ -1072,63 +1115,63 @@ namespace TPMS_DTC
                 case "StartDiagnostic2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x10, 0x85 });
-                    
+
                     break;
 
                 // === Read Data By Local Identifier ===
                 case "ECUInputBattery":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x21, 0x01 });
-                    
+
                     break;
 
                 case "LampDrive":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x21, 0x02 });
-                    
+
                     break;
 
                 case "SensorStatus":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x21, 0x06 });
-                    
+
                     break;
 
                 case "EcuStatus":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x21, 0xAF });
-                    
+
                     break;
 
                 // === Write Data By Local Identifier ===
                 case "VehicleProject&WheelSize":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x3B, 0x91, 0x46, 0x53, 0x31, 0x54, 0x00, 0x00 });
-                    
+
                     break;
 
                 case "ECUIdentificationData":
                     GetDescriptionForCommand(selectedNode.Name);
-                    SendCanCommand(new byte[] { 0x3B, 0x80, 0x54, 0x50, 0x4D, 0x53, 0x48, 0x49, 0x47, 0x48, 0x5F, 0x4C, 0x49, 0x4E, 0x45});
-                    
+                    SendCanCommand(new byte[] { 0x3B, 0x80, 0x54, 0x50, 0x4D, 0x53, 0x48, 0x49, 0x47, 0x48, 0x5F, 0x4C, 0x49, 0x4E, 0x45 });
+
                     break;
 
                 case "HMC/KMCData":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x3B, 0x86, 0x04, 0x02, 0x02 });
-                    
+
                     break;
 
                 case "VINData":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x3B, 0x90, 0x56, 0x49, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                    
+
                     break;
 
                 case "SensorIDType":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x3B, 0x8B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                    
+
                     break;
 
                 case "ManufacturePartInfo":
@@ -1138,7 +1181,7 @@ namespace TPMS_DTC
                     , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x31, 0x30, 0x31, 0x30
                     , 0x00, 0x00, 0x00, 0x00});
-                    
+
                     break;
 
                 //////////////////////////////////////
@@ -1154,38 +1197,38 @@ namespace TPMS_DTC
                 case "StartDiagnostic3":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x10, 0x90 });
-                    
+
                     break;
 
                 case "StopDiagnostic2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x20 });
-                    
+
                     break;
 
                 // === Read ECU Identification ID ===
                 case "VehicleProject2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x91 });
-                    
+
                     break;
 
                 case "EcuIdentification2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x80 });
-                    
+
                     break;
 
                 case "HMC/KMC2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x86 });
-                    
+
                     break;
 
                 case "VIN2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x90 });
-                    
+
                     break;
 
                 case "ReadSensors2":
@@ -1197,13 +1240,13 @@ namespace TPMS_DTC
                 case "ManufacturerPart2":
                     GetDescriptionForCommand(selectedNode.Name);
                     SendCanCommand(new byte[] { 0x1A, 0x87 });
-                    
+
                     break;
 
                 default:
                     MessageBox.Show("알 수 없는 노드 선택됨: {0}", selectedNode.Text);
                     GetDescriptionForCommand(selectedNode.Name);
-                    
+
                     break;
             }
         }
@@ -1291,7 +1334,7 @@ namespace TPMS_DTC
             if (command.Length > 7)
             {
                 //SF방식은 tb_byte0~ tb_byte7에 적용해서 transmit을 눌러진행했지만, 여기서는 바로 설정해서 FF, CF를 보내줄 수 있게 설정.
-                
+
                 // FF 방식으로 메시지 전송
                 SendFirstFrame(command, description);
 
@@ -1466,6 +1509,16 @@ namespace TPMS_DTC
             }
         }
 
+        //LogListBox에 Display되어있는 값들 지우기
+        private void LogResetButton_Click(object sender, EventArgs e)
+        {
+            // LogListBox 항목 모두 제거
+            LogListBox.Items.Clear();
+
+            // 메시지 박스로 사용자에게 초기화 확인
+            MessageBox.Show("Log has been reset.", "Log Reset", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         // 로그를 담을 간단한 클래스
         public class LogEntry
         {
@@ -1477,12 +1530,12 @@ namespace TPMS_DTC
             public string DataHex;     // 예: "00 11 22 33 ..."
             public string Description; // 추가 설명
             public string Type;
-            
+
             public LogEntry(string dir, DateTime ts, string type, string idHex, int len, string data, string desc = "")
             {
                 Direction = dir;
                 Timestamp = ts;
-                Type = type; 
+                Type = type;
                 CanIdHex = idHex;
                 DataLength = len;
                 DataHex = data;
@@ -1495,8 +1548,8 @@ namespace TPMS_DTC
                 return string.Format("{0:yyyy-MM-dd HH:mm:ss.fff} | {1} | {2} | ID={3} | Len={4} | Data={5} | {6}",
                     Timestamp, Direction, Type, CanIdHex, DataLength, DataHex, Description);
             }
-            
-            
+
+
             // Type 결정 메서드 (데이터에서 tb_byte01 값 추출)
             private string GetLogTypeFromData(string dataHex)
             {
@@ -1511,16 +1564,16 @@ namespace TPMS_DTC
                     switch (dataBytes[1]) // tb_byte01에 해당
                     {
                         case 0x81:
-                             Type = "Standard";
-                             break;
+                            Type = "Standard";
+                            break;
                         case 0x85:
-                             Type ="EcuProgramming";
-                             break;
+                            Type = "EcuProgramming";
+                            break;
                         case 0x90:
-                             Type = "Extended";
-                             break;
+                            Type = "Extended";
+                            break;
                         default:
-                             break;
+                            break;
                     }
                 }
                 return "Unknown";
