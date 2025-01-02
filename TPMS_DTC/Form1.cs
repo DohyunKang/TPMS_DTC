@@ -62,6 +62,13 @@ namespace TPMS_DTC
         // 현재 모드 상태를 저장할 변수
         private string currentType1 = "Unknown";
 
+        // 수신 메시지를 처리하기 위한 변수 선언
+        private List<byte> receivedData = new List<byte>();
+        private int expectedDataLength = 0; // 전체 데이터 길이
+
+        //Tx 메세지의 Description을 처리하기 위한 변수 선언
+        private string data_description = "Unkwnon";
+
         public TPMS()
         {
             InitializeComponent();
@@ -239,9 +246,9 @@ namespace TPMS_DTC
             }
         }
 
-        //======================================================================
-        //   수신 타이머 콜백 (CH1/CH2 모두 Read 시도)
-        //======================================================================
+        //===========================================================================
+        //   수신 타이머 콜백 (CH1/CH2 모두 Read 시도) + 수신 메시지 파싱 처리 + FC 송신
+        //===========================================================================
         private void CanReadTimer_Tick(object state)
         {
             if (ch1Connected)
@@ -271,6 +278,40 @@ namespace TPMS_DTC
                 string dataHex = string.Join(" ", message.DATA.Take(message.LEN).Select(b => b.ToString("X2")));
                 string type = GetLogTypeFromData(dataHex); // Type 정의
                 string description = "RxMsg"; // 기본 설명
+
+                // 수신 메시지 처리
+                if (message.DATA[0] >> 4 == 0x10) // First Frame (FF)
+                {
+                    expectedDataLength = ((message.DATA[0] & 0x0F) << 8) | message.DATA[1];
+                    receivedData = message.DATA.Skip(2).ToList();
+
+                    // FC 전송 준비
+                    SendFlowControl(handle, blockSize: 0, stMin: 5);
+
+                    description = "First Frame";
+                    type = "MultiFrame";
+                }
+                else if (message.DATA[0] >= 0x21 && message.DATA[0] <= 0x30) // Consecutive Frame (CF)
+                {
+                    int sequenceNumber = message.DATA[0] & 0x0F;
+                    receivedData.AddRange(message.DATA.Skip(1));
+
+                    description = string.Format("Consecutive Frame {0}", sequenceNumber);
+                    type = "MultiFrame";
+
+                    if (receivedData.Count >= expectedDataLength)
+                    {
+                        receivedData.Clear();
+                        expectedDataLength = 0;
+
+                        description = "Complete MultiFrame";
+                    }
+                    else
+                    {
+                        // FC 전송 준비
+                        SendFlowControl(handle, blockSize: 0, stMin: 5);
+                    }
+                }
 
                 // 에러 코드 식별 (0번째 바이트: 01, 1번째 바이트에 따라 결정)
                 if (canIdHex == "7DE" && message.LEN > 1 && message.DATA[1] == 0x7F)
@@ -322,8 +363,24 @@ namespace TPMS_DTC
             }
         }
 
+        private void SendFlowControl(uint canId, byte blockSize, byte stMin)
+        {
+            // FC 메시지 데이터 구성
+            byte[] fcData = new byte[8];
+            fcData[0] = 0x30; // Flow Control: Continue To Send
+            fcData[1] = blockSize; // Block Size (0: 제한 없음)
+            fcData[2] = stMin; // Minimum Separation Time
+            for (int i = 3; i < 8; i++)
+            {
+                fcData[i] = 0x00; // 패딩
+            }
+
+            // FC 전송 (SendCanMessage 활용)
+            SendCanMessage(canId, fcData, "Flow Control");
+        }
+
         //======================================================================
-        //   데이터 전송 버튼 (Tx)
+        //   데이터 전송 버튼 (Tx) + FC 전송 버튼
         //======================================================================
         private void DataTransmit_Click(object sender, EventArgs e)
         {
@@ -352,6 +409,7 @@ namespace TPMS_DTC
             string sid = selectedRow.Cells[1].Value.ToString();
             string dataString = selectedRow.Cells[2].Value.ToString();
             string frameType = selectedRow.Cells[3].Value.ToString();
+            string description = selectedRow.Cells[4].Value.ToString();
 
             // SID + Data 값을 생성
             string fullDataString = sid + " " + dataString;
@@ -408,7 +466,7 @@ namespace TPMS_DTC
                     canIdHex,
                     canMsg.LEN,
                     dataHex,
-                    "TxMsg"
+                    description
                 );
 
                 // 큐에 넣기
@@ -423,6 +481,107 @@ namespace TPMS_DTC
             else
             {
                 MessageBox.Show("Transmit failed: " + stsResult.ToString());
+            }
+        }
+
+        private void FcTransmit_Click(object sender, EventArgs e)
+        {
+            // 어느 채널로 보낼 것인지 결정 (예시로 CH1 우선)
+            TPCANHandle handleToUse = PCANBasic.PCAN_NONEBUS;
+            if (ch1Connected)
+                handleToUse = m_PcanHandleCH1;
+            else if (ch2Connected)
+                handleToUse = m_PcanHandleCH2;
+            else
+            {
+                MessageBox.Show("No channel is connected!");
+                return;
+            }
+
+            // dataGridView2에서 현재 선택된 행(SelectedRow) 찾기
+            if (dataGridView2.SelectedRows.Count < 1)
+            {
+                MessageBox.Show("Please select a row in the grid to transmit.");
+                return;
+            }
+
+            DataGridViewRow selectedRow = dataGridView2.SelectedRows[0];
+            // 열에서 CAN ID / SID / DATA / FRAME TYPE 가져오기
+            string canIdHex = selectedRow.Cells["ID2"].Value.ToString();
+            string sid = selectedRow.Cells["SID2"].Value.ToString();
+            string dataString = selectedRow.Cells["Data2"].Value.ToString();
+            string frameType = selectedRow.Cells["FrameType2"].Value.ToString();
+
+            // SID + Data 값을 생성
+            string fullDataString = sid + " " + dataString;
+
+            // CAN 메시지 만들기
+            TPCANMsg canMsg = new TPCANMsg();
+            if (frameType == "EXT")
+                canMsg.MSGTYPE = TPCANMessageType.PCAN_MESSAGE_EXTENDED;
+            else
+                canMsg.MSGTYPE = TPCANMessageType.PCAN_MESSAGE_STANDARD;
+
+            // ID 설정
+            try
+            {
+                canMsg.ID = Convert.ToUInt32(canIdHex, 16);
+            }
+            catch
+            {
+                MessageBox.Show("Invalid CAN ID in selected row.");
+                return;
+            }
+
+            // DATA 파싱
+            string[] dataHexArr = fullDataString.Split(' ');
+            byte[] msgData = new byte[8];
+            for (int i = 0; i < 8; i++)
+            {
+                try
+                {
+                    msgData[i] = Convert.ToByte(dataHexArr[i], 16);
+                }
+                catch
+                {
+                    msgData[i] = 0x00;
+                }
+            }
+            canMsg.DATA = msgData;
+            canMsg.LEN = 8;
+
+            string type = "Flow Control"; // FC의 Type은 고정
+
+            // 전송
+            TPCANStatus stsResult = PCANBasic.Write(handleToUse, ref canMsg);
+            if (stsResult == TPCANStatus.PCAN_ERROR_OK)
+            {
+                // 전송 성공 -> TX 로그
+                DateTime now = DateTime.Now;
+                string dataHex = string.Join(" ", msgData.Take(8).Select(b => b.ToString("X2")));
+
+                LogEntry txEntry = new LogEntry(
+                    "TX",
+                    now,
+                    type,
+                    canIdHex,
+                    canMsg.LEN,
+                    dataHex,
+                    "Flow Control Tx"
+                );
+
+                // 큐에 넣기
+                lock (logQueue)
+                {
+                    logQueue.Enqueue(txEntry);
+                }
+
+                // LogListBox에 표시
+                UpdateDisplay(txEntry);
+            }
+            else
+            {
+                MessageBox.Show("FC Transmit failed: " + stsResult.ToString());
             }
         }
 
@@ -464,14 +623,13 @@ namespace TPMS_DTC
             //string frameType = GetLogTypeFromData(dataString);
             currentType1 = GetLogTypeFromData(dataString);
             string frameType = currentType1;
-            //string description = GetDescription(sid);
 
             int rowIndex = dataGridView1.Rows.Add();
             dataGridView1.Rows[rowIndex].Cells[0].Value = msgIdHex.ToUpper();
             dataGridView1.Rows[rowIndex].Cells[1].Value = sid;
             dataGridView1.Rows[rowIndex].Cells[2].Value = dataString;
             dataGridView1.Rows[rowIndex].Cells[3].Value = frameType;
-            dataGridView1.Rows[rowIndex].Cells[4].Value = Descryption;
+            dataGridView1.Rows[rowIndex].Cells[4].Value = data_description;
 
             MessageBox.Show("Message Created / Added to Grid.");
         }
@@ -492,62 +650,20 @@ namespace TPMS_DTC
         }
 
         //======================================================================
-        //   FlowControl (FC_Set) 기존 로직 (생략 가능)
+        //   FlowControl (FC_Set) / FlowControlDelete (GridView 행 편집)
         //======================================================================
         private void FC_Set_Click(object sender, EventArgs e)
         {
-            TPCANHandle handleToUse = PCANBasic.PCAN_NONEBUS;
-            if (ch1Connected)
-                handleToUse = m_PcanHandleCH1;
-            else if (ch2Connected)
-                handleToUse = m_PcanHandleCH2;
-            else
+            // FC ID 입력 확인
+            string fcIdHex = FC_ID_Edit.Text.Trim();
+            if (string.IsNullOrEmpty(fcIdHex))
             {
-                MessageBox.Show("No channel is connected!");
+                MessageBox.Show("Please enter Flow Control ID.");
                 return;
             }
 
-            TPCANMsg fcMsg = new TPCANMsg();
-            fcMsg.MSGTYPE = TPCANMessageType.PCAN_MESSAGE_STANDARD;
-
-            try
-            {
-                string fcIdHex = FC_ID_Edit.Text.Trim();
-                fcMsg.ID = Convert.ToUInt32(fcIdHex, 16);
-            }
-            catch
-            {
-                MessageBox.Show("Invalid FC ID (Hex).");
-                return;
-            }
-
-            byte fs = 0x00;
-            if (cb_FS.SelectedIndex >= 0)
-                fs = (byte)cb_FS.SelectedIndex;
-
-            byte bs = 0x00;
-            try
-            {
-                bs = Convert.ToByte(tb_bs.Text.Trim(), 16);
-            }
-            catch
-            {
-                bs = 0x00;
-            }
-
-            byte stMin = 0x00;
-            if (rBtn_ms.Checked)
-            {
-                int stMinValueMs = (int)udStmin_ms.Value;
-                stMin = (byte)Math.Min(stMinValueMs, 0x7F);
-            }
-            else if (rBtn_μs.Checked)
-            {
-                int stMinValueUs = (int)dud_STmin_us.Value;
-                stMin = (byte)Math.Min(stMinValueUs, 0xFF);
-            }
-
-            byte[] fcData = new byte[8];
+            // 데이터 바이트 배열 생성
+            string[] fcDataArray = new string[8];
             for (int i = 0; i < 8; i++)
             {
                 string boxName = "tb_fc" + i.ToString();
@@ -555,32 +671,58 @@ namespace TPMS_DTC
                 if (boxes.Length > 0 && boxes[0] is TextBox)
                 {
                     TextBox t = (TextBox)boxes[0];
-                    try
-                    {
-                        fcData[i] = Convert.ToByte(t.Text.Trim(), 16);
-                    }
-                    catch
-                    {
-                        fcData[i] = 0x00;
-                    }
+                    string hexVal = t.Text.Trim();
+                    if (string.IsNullOrEmpty(hexVal))
+                        hexVal = "00"; // 빈 값은 00으로 설정
+                    fcDataArray[i] = hexVal;
+                }
+                else
+                {
+                    fcDataArray[i] = "00"; // 기본 값
                 }
             }
 
-            fcData[0] = fs;
-            fcData[1] = bs;
-            fcData[2] = stMin;
-
-            fcMsg.DATA = fcData;
-            fcMsg.LEN = 8;
-
-            TPCANStatus result = PCANBasic.Write(handleToUse, ref fcMsg);
-            if (result == TPCANStatus.PCAN_ERROR_OK)
-            {
-                MessageBox.Show("Flow Control Set OK.");
-            }
+            // FS, BS, ST_MIN 값 설정
+            string fs = fcDataArray[0]; // FS 값은 첫 번째 바이트
+            string bs = tb_bs.Text.Trim(); // Block Size
+            string stMin;
+            if (rBtn_ms.Checked)
+                stMin = ((int)udStmin_ms.Value).ToString("X2");
+            else if (rBtn_μs.Checked)
+                stMin = ((int)dud_STmin_us.Value).ToString("X2");
             else
+                stMin = "00"; // 기본 ST_MIN 값
+
+            // FC 데이터 문자열 생성
+            string dataString = string.Join(" ", fcDataArray.Select(s => s.ToUpper()));
+            string frameType = "Flow Control";
+            string description = "Flow Control Created";
+
+            // dataGridView2에 데이터 추가
+            int rowIndex = dataGridView2.Rows.Add();
+            dataGridView2.Rows[rowIndex].Cells[0].Value = fcIdHex.ToUpper(); // FC ID
+            dataGridView2.Rows[rowIndex].Cells[1].Value = fs; // FS 값
+            dataGridView2.Rows[rowIndex].Cells[2].Value = dataString; // FC 데이터
+            dataGridView2.Rows[rowIndex].Cells[3].Value = bs.ToUpper(); // Block Size
+            dataGridView2.Rows[rowIndex].Cells[4].Value = stMin; // ST_MIN 값
+            dataGridView2.Rows[rowIndex].Cells[5].Value = frameType; // 프레임 타입
+            dataGridView2.Rows[rowIndex].Cells[6].Value = description; // 설명
+
+            MessageBox.Show("Flow Control Created / Added to Grid.");
+        }
+
+        private void FcDelete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Flow Control Set failed: " + result.ToString());
+                MessageBox.Show("No row is selected for deletion!");
+                return;
+            }
+
+            foreach (DataGridViewRow row in dataGridView2.SelectedRows)
+            {
+                if (!row.IsNewRow)
+                    dataGridView2.Rows.Remove(row);
             }
         }
 
@@ -785,9 +927,11 @@ namespace TPMS_DTC
             LogListBox.TopIndex = LogListBox.Items.Count - 1;
         }
 
-        //======================================================================
-        //   명령어 즐겨찾기, 명령어 tb_byte에 적용, 로그 String 생성 메서드
-        //======================================================================
+        //===============================================================================================
+        //   명령어 즐겨찾기, 명령어 tb_byte에 적용, 로그 String 생성 메서드, description 별개 생성 메서드
+        //===============================================================================================
+        
+        // 명령어 즐겨찾기 하드 코딩
         private void ServiceList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode selectedNode = e.Node;
@@ -800,61 +944,75 @@ namespace TPMS_DTC
 
                 case "nodeStandard":
                     MessageBox.Show("Standard Diagnostic Mode 선택됨");
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "StartDiagnostic":
                     SendCanCommand(new byte[] { 0x10, 0x81 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "StopDiagnostic":
                     SendCanCommand(new byte[] { 0x20 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 // === Read ECU Identification ID ===
                 case "VehicleProject":
                     SendCanCommand(new byte[] { 0x1A, 0x91 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "EcuIdentification":
                     SendCanCommand(new byte[] { 0x1A, 0x80 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "HMC/KMC":
                     SendCanCommand(new byte[] { 0x1A, 0x86 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "VIN":
                     SendCanCommand(new byte[] { 0x1A, 0x90 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ReadSensors":
                     SendCanCommand(new byte[] { 0x1A, 0x8B });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ManufacturerPart":
                     SendCanCommand(new byte[] { 0x1A, 0x87 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 // === Read DTC By Status ===
                 case "ActiveFault":
                     SendCanCommand(new byte[] { 0x18, 0x00, 0x40, 0x00 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "HistoricFault":
                     SendCanCommand(new byte[] { 0x18, 0x01, 0x40, 0x00 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 // === Clear Diagnostic Information ===
                 case "ClearAll":
                     SendCanCommand(new byte[] { 0x14, 0x40, 0x00 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ActiveDTCS":
                     SendCanCommand(new byte[] { 0x14, 0x40, 0x01 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "HistoricDTCS":
                     SendCanCommand(new byte[] { 0x14, 0x40, 0x02 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                  ////////////////////////////////////
@@ -863,48 +1021,59 @@ namespace TPMS_DTC
 
                 case "nodeECUProgrammingMode":
                     MessageBox.Show("ECU Programming Mode 선택됨");
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "StartDiagnostic2":
                     SendCanCommand(new byte[] { 0x10, 0x85 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 // === Read Data By Local Identifier ===
                 case "ECUInputBattery":
                     SendCanCommand(new byte[] { 0x21, 0x01 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "LampDrive":
                     SendCanCommand(new byte[] { 0x21, 0x02 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "SensorStatus":
                     SendCanCommand(new byte[] { 0x21, 0x06 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "EcuStatus":
                     SendCanCommand(new byte[] { 0x21, 0xAF });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 // === Write Data By Local Identifier ===
                 case "VehicleProject&WheelSize":
                     SendCanCommand(new byte[] { 0x3B, 0x91, 0x46, 0x53, 0x31, 0x54, 0x00, 0x00 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ECUIdentificationData":
                     SendCanCommand(new byte[] { 0x3B, 0x80, 0x54, 0x50, 0x4D, 0x53, 0x48, 0x49, 0x47, 0x48, 0x5F, 0x4C, 0x49, 0x4E, 0x45});
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "HMC/KMCData":
                     SendCanCommand(new byte[] { 0x3B, 0x86, 0x04, 0x02, 0x02 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "VINData":
                     SendCanCommand(new byte[] { 0x3B, 0x90, 0x56, 0x49, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "SensorIDType":
                     SendCanCommand(new byte[] { 0x3B, 0x8B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ManufacturePartInfo":
@@ -913,6 +1082,7 @@ namespace TPMS_DTC
                     , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x31, 0x30, 0x31, 0x30
                     , 0x00, 0x00, 0x00, 0x00});
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 //////////////////////////////////////
@@ -921,44 +1091,128 @@ namespace TPMS_DTC
 
                 case "nodeExtended":
                     MessageBox.Show("Extended Diagnostic Mode 선택됨");
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "StartDiagnostic3":
                     SendCanCommand(new byte[] { 0x10, 0x90 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "StopDiagnostic2":
                     SendCanCommand(new byte[] { 0x20 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 // === Read ECU Identification ID ===
                 case "VehicleProject2":
                     SendCanCommand(new byte[] { 0x1A, 0x91 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "EcuIdentification2":
                     SendCanCommand(new byte[] { 0x1A, 0x80 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "HMC/KMC2":
                     SendCanCommand(new byte[] { 0x1A, 0x86 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "VIN2":
                     SendCanCommand(new byte[] { 0x1A, 0x90 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ReadSensors2":
                     SendCanCommand(new byte[] { 0x1A, 0x8B });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 case "ManufacturerPart2":
                     SendCanCommand(new byte[] { 0x1A, 0x87 });
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
 
                 default:
                     MessageBox.Show("알 수 없는 노드 선택됨: {0}", selectedNode.Text);
+                    GetDescriptionForCommand(selectedNode.Name);
                     break;
+            }
+        }
+
+        //Tx description 적용 메서드
+        private string GetDescriptionForCommand(string commandKey)
+        {
+            switch (commandKey)
+            {
+                case "StartDiagnostic":
+                    return data_description = "Start Diagnostic Mode";
+                case "StopDiagnostic":
+                    return data_description = "Stop Diagnostic Mode";
+                case "VehicleProject":
+                    return data_description = "Request Vehicle Project Information";
+                case "EcuIdentification":
+                    return data_description = "Request ECU Identification Data";
+                case "HMC/KMC":
+                    return data_description = "Request HMC/KMC Part Configuration";
+                case "VIN":
+                    return data_description = "Request Vehicle Identification Number (VIN)";
+                case "ReadSensors":
+                    return data_description = "Request Sensor Data";
+                case "ManufacturerPart":
+                    return data_description = "Request Manufacturer Part Information";
+                case "ActiveFault":
+                    return data_description = "Request Active Fault (Current DTC)";
+                case "HistoricFault":
+                    return data_description = "Request Historic Fault (Historical DTC)";
+                case "ClearAll":
+                    return data_description = "Clear All Historic and Active DTC Information";
+                case "ActiveDTCS":
+                    return data_description = "Active DTCs Changed to Historic DTCs";
+                case "HistoricDTCS":
+                    return data_description = "Historic DTCs Changed to Active DTCs";
+                case "StartDiagnostic2":
+                    return data_description = "Start ECU Programming Diagnostic Mode";
+                case "ECUInputBattery":
+                    return data_description = "Request ECU Input Battery Values";
+                case "LampDrive":
+                    return data_description = "Request Lamp Drive Status";
+                case "SensorStatus":
+                    return data_description = "Request Sensor Status Information";
+                case "EcuStatus":
+                    return data_description = "Request ECU Status Information";
+                case "VehicleProject&WheelSize":
+                    return data_description = "Set Vehicle Project Name and Wheel Size";
+                case "ECUIdentificationData":
+                    return data_description = "Set ECU Identification Data Table";
+                case "HMC/KMCData":
+                    return data_description = "Set HMC/KMC Part Configuration";
+                case "VINData":
+                    return data_description = "Set Vehicle Identification Number (VIN)";
+                case "SensorIDType":
+                    return data_description = "Set Sensor ID Type 1 Learn";
+                case "ManufacturePartInfo":
+                    return data_description = "Set Manufacturer Part Information Block";
+                case "StartDiagnostic3":
+                    return data_description = "Start Extended Diagnostic Mode";
+                case "StopDiagnostic2":
+                    return data_description = "Stop Extended Diagnostic Mode";
+                case "VehicleProject2":
+                    return data_description = "Request Vehicle Project Information (Extended)";
+                case "EcuIdentification2":
+                    return data_description = "Request ECU Identification Data (Extended)";
+                case "HMC/KMC2":
+                    return data_description = "Request HMC/KMC Part Configuration (Extended)";
+                case "VIN2":
+                    return data_description = "Request Vehicle Identification Number (VIN) (Extended)";
+                case "ReadSensors2":
+                    return data_description = "Request Sensor Data (Extended)";
+                case "ManufacturerPart2":
+                    return data_description = "Request Manufacturer Part Information (Extended)";
+                default:
+                    return data_description = "Unknown Command";
             }
         }
 
@@ -968,7 +1222,8 @@ namespace TPMS_DTC
             // 명령 데이터가 7바이트 초과인 경우 SF로 하지않고 FF, CF 방식으로 진행
             if (command.Length > 7)
             {
-                //여기에 로직을 작성해주세요. SF방식은 tb_byte0~ tb_byte7에 적용해서 transmit을 눌러진행했지만, 여기서는 바로 설정해서 FF, CF를 보내줄 수 있게 짜봅시다.
+                //SF방식은 tb_byte0~ tb_byte7에 적용해서 transmit을 눌러진행했지만, 여기서는 바로 설정해서 FF, CF를 보내줄 수 있게 설정.
+                
                 // FF 방식으로 메시지 전송
                 SendFirstFrame(command);
 

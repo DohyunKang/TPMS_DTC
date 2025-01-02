@@ -119,11 +119,13 @@
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SID2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Data2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ST_MIN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameType2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
             this.DataTransmit = new System.Windows.Forms.Button();
             this.DataDelete = new System.Windows.Forms.Button();
@@ -133,10 +135,10 @@
             this.Sid = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrameType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descryption = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.FcTransmit = new System.Windows.Forms.Button();
+            this.FcDelete = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
@@ -328,11 +330,13 @@
             this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5});
+            this.ID2,
+            this.SID2,
+            this.Data2,
+            this.BS,
+            this.ST_MIN,
+            this.FrameType2,
+            this.Description2});
             this.dataGridView2.Location = new System.Drawing.Point(464, 49);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -348,47 +352,59 @@
             this.dataGridView2.Size = new System.Drawing.Size(451, 198);
             this.dataGridView2.TabIndex = 10;
             // 
-            // dataGridViewTextBoxColumn1
+            // ID2
             // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 40;
+            this.ID2.HeaderText = "ID";
+            this.ID2.Name = "ID2";
+            this.ID2.ReadOnly = true;
+            this.ID2.Width = 40;
             // 
-            // dataGridViewTextBoxColumn2
+            // SID2
             // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "SID";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 40;
+            this.SID2.HeaderText = "SID";
+            this.SID2.Name = "SID2";
+            this.SID2.ReadOnly = true;
+            this.SID2.Width = 40;
             // 
-            // dataGridViewTextBoxColumn3
+            // Data2
             // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "DATA";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 130;
+            this.Data2.HeaderText = "DATA";
+            this.Data2.Name = "Data2";
+            this.Data2.ReadOnly = true;
+            this.Data2.Width = 130;
             // 
-            // dataGridViewTextBoxColumn4
+            // BS
             // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "FrameType";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 80;
+            this.BS.HeaderText = "BS";
+            this.BS.Name = "BS";
+            this.BS.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn5
+            // ST_MIN
             // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Descryption";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 400;
+            this.ST_MIN.HeaderText = "ST MIN";
+            this.ST_MIN.Name = "ST_MIN";
+            this.ST_MIN.ReadOnly = true;
+            // 
+            // FrameType2
+            // 
+            this.FrameType2.HeaderText = "FrameType";
+            this.FrameType2.Name = "FrameType2";
+            this.FrameType2.ReadOnly = true;
+            this.FrameType2.Width = 80;
+            // 
+            // Description2
+            // 
+            this.Description2.HeaderText = "Description";
+            this.Description2.Name = "Description2";
+            this.Description2.ReadOnly = true;
+            this.Description2.Width = 400;
             // 
             // tableLayoutPanel23
             // 
             this.tableLayoutPanel23.ColumnCount = 3;
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.60177F));
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.39823F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
             this.tableLayoutPanel23.Controls.Add(this.DataTransmit, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.DataDelete, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.label3, 0, 0);
@@ -405,9 +421,9 @@
             // 
             this.DataTransmit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataTransmit.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DataTransmit.Location = new System.Drawing.Point(329, 3);
+            this.DataTransmit.Location = new System.Drawing.Point(325, 3);
             this.DataTransmit.Name = "DataTransmit";
-            this.DataTransmit.Size = new System.Drawing.Size(123, 34);
+            this.DataTransmit.Size = new System.Drawing.Size(127, 34);
             this.DataTransmit.TabIndex = 15;
             this.DataTransmit.Text = "Transmit";
             this.DataTransmit.UseVisualStyleBackColor = true;
@@ -417,9 +433,9 @@
             // 
             this.DataDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataDelete.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DataDelete.Location = new System.Drawing.Point(214, 3);
+            this.DataDelete.Location = new System.Drawing.Point(211, 3);
             this.DataDelete.Name = "DataDelete";
-            this.DataDelete.Size = new System.Drawing.Size(109, 34);
+            this.DataDelete.Size = new System.Drawing.Size(108, 34);
             this.DataDelete.TabIndex = 14;
             this.DataDelete.Text = "Delete";
             this.DataDelete.UseVisualStyleBackColor = true;
@@ -433,7 +449,7 @@
             this.label3.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(3, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(205, 40);
+            this.label3.Size = new System.Drawing.Size(202, 40);
             this.label3.TabIndex = 4;
             this.label3.Text = "Tx";
             // 
@@ -461,7 +477,7 @@
             this.Sid,
             this.Data,
             this.FrameType,
-            this.Descryption});
+            this.Description});
             this.dataGridView1.Location = new System.Drawing.Point(3, 49);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -505,21 +521,21 @@
             this.FrameType.ReadOnly = true;
             this.FrameType.Width = 80;
             // 
-            // Descryption
+            // Description
             // 
-            this.Descryption.HeaderText = "Descryption";
-            this.Descryption.Name = "Descryption";
-            this.Descryption.ReadOnly = true;
-            this.Descryption.Width = 400;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            this.Description.Width = 400;
             // 
             // tableLayoutPanel13
             // 
             this.tableLayoutPanel13.ColumnCount = 3;
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.69565F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.30435F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
-            this.tableLayoutPanel13.Controls.Add(this.button2, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.button1, 0, 0);
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
+            this.tableLayoutPanel13.Controls.Add(this.FcTransmit, 0, 0);
+            this.tableLayoutPanel13.Controls.Add(this.FcDelete, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel13.Location = new System.Drawing.Point(464, 3);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
@@ -529,27 +545,29 @@
             this.tableLayoutPanel13.Size = new System.Drawing.Size(459, 40);
             this.tableLayoutPanel13.TabIndex = 9;
             // 
-            // button2
+            // FcTransmit
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(326, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(130, 34);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "Set";
-            this.button2.UseVisualStyleBackColor = true;
+            this.FcTransmit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FcTransmit.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FcTransmit.Location = new System.Drawing.Point(322, 3);
+            this.FcTransmit.Name = "FcTransmit";
+            this.FcTransmit.Size = new System.Drawing.Size(134, 34);
+            this.FcTransmit.TabIndex = 16;
+            this.FcTransmit.Text = "Transmit";
+            this.FcTransmit.UseVisualStyleBackColor = true;
+            this.FcTransmit.Click += new System.EventHandler(this.FcTransmit_Click);
             // 
-            // button1
+            // FcDelete
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(193, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(127, 34);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = true;
+            this.FcDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FcDelete.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FcDelete.Location = new System.Drawing.Point(190, 3);
+            this.FcDelete.Name = "FcDelete";
+            this.FcDelete.Size = new System.Drawing.Size(126, 34);
+            this.FcDelete.TabIndex = 15;
+            this.FcDelete.Text = "Delete";
+            this.FcDelete.UseVisualStyleBackColor = true;
+            this.FcDelete.Click += new System.EventHandler(this.FcDelete_Click);
             // 
             // label8
             // 
@@ -559,7 +577,7 @@
             this.label8.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(184, 40);
+            this.label8.Size = new System.Drawing.Size(181, 40);
             this.label8.TabIndex = 5;
             this.label8.Text = "FlowControl";
             // 
@@ -655,7 +673,7 @@
             this.tableLayoutPanel19.ColumnCount = 3;
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.28571F));
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.71428F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 565F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 569F));
             this.tableLayoutPanel19.Controls.Add(this.cb_FS, 0, 1);
             this.tableLayoutPanel19.Controls.Add(this.label14, 2, 0);
             this.tableLayoutPanel19.Controls.Add(this.label11, 1, 0);
@@ -681,7 +699,7 @@
             "Overflow(2)"});
             this.cb_FS.Location = new System.Drawing.Point(3, 22);
             this.cb_FS.Name = "cb_FS";
-            this.cb_FS.Size = new System.Drawing.Size(131, 30);
+            this.cb_FS.Size = new System.Drawing.Size(128, 30);
             this.cb_FS.TabIndex = 9;
             this.cb_FS.Text = "CTS(0)";
             this.cb_FS.SelectedIndexChanged += new System.EventHandler(this.cb_FS_SelectedIndexChanged);
@@ -692,9 +710,9 @@
             this.label14.BackColor = System.Drawing.SystemColors.Control;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label14.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(187, 0);
+            this.label14.Location = new System.Drawing.Point(183, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(560, 19);
+            this.label14.Size = new System.Drawing.Size(564, 19);
             this.label14.TabIndex = 8;
             this.label14.Text = "ST_MIN";
             // 
@@ -704,9 +722,9 @@
             this.label11.BackColor = System.Drawing.SystemColors.Control;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(140, 0);
+            this.label11.Location = new System.Drawing.Point(137, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 19);
+            this.label11.Size = new System.Drawing.Size(40, 19);
             this.label11.TabIndex = 7;
             this.label11.Text = "BS";
             // 
@@ -718,7 +736,7 @@
             this.label10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(131, 19);
+            this.label10.Size = new System.Drawing.Size(128, 19);
             this.label10.TabIndex = 5;
             this.label10.Text = "FS";
             // 
@@ -728,12 +746,12 @@
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.03653F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.96347F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 88F));
             this.tableLayoutPanel21.Controls.Add(this.dud_STmin_us, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.rBtn_ms, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.udStmin_ms, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.rBtn_μs, 3, 0);
-            this.tableLayoutPanel21.Location = new System.Drawing.Point(187, 22);
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(183, 22);
             this.tableLayoutPanel21.Name = "tableLayoutPanel21";
             this.tableLayoutPanel21.RowCount = 1;
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -750,7 +768,7 @@
             0,
             0,
             0});
-            this.dud_STmin_us.Location = new System.Drawing.Point(291, 3);
+            this.dud_STmin_us.Location = new System.Drawing.Point(287, 3);
             this.dud_STmin_us.Maximum = new decimal(new int[] {
             900,
             0,
@@ -766,7 +784,7 @@
             this.rBtn_ms.AutoSize = true;
             this.rBtn_ms.Checked = true;
             this.rBtn_ms.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rBtn_ms.Location = new System.Drawing.Point(199, 3);
+            this.rBtn_ms.Location = new System.Drawing.Point(196, 3);
             this.rBtn_ms.Name = "rBtn_ms";
             this.rBtn_ms.Size = new System.Drawing.Size(48, 26);
             this.rBtn_ms.TabIndex = 47;
@@ -785,7 +803,7 @@
             0,
             0});
             this.udStmin_ms.Name = "udStmin_ms";
-            this.udStmin_ms.Size = new System.Drawing.Size(190, 30);
+            this.udStmin_ms.Size = new System.Drawing.Size(187, 30);
             this.udStmin_ms.TabIndex = 44;
             this.udStmin_ms.Value = new decimal(new int[] {
             20,
@@ -798,7 +816,7 @@
             // 
             this.rBtn_μs.AutoSize = true;
             this.rBtn_μs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rBtn_μs.Location = new System.Drawing.Point(452, 3);
+            this.rBtn_μs.Location = new System.Drawing.Point(448, 3);
             this.rBtn_μs.Name = "rBtn_μs";
             this.rBtn_μs.Size = new System.Drawing.Size(48, 26);
             this.rBtn_μs.TabIndex = 50;
@@ -811,10 +829,10 @@
             // 
             this.tb_bs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tb_bs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_bs.Location = new System.Drawing.Point(140, 22);
+            this.tb_bs.Location = new System.Drawing.Point(137, 22);
             this.tb_bs.MaxLength = 2;
             this.tb_bs.Name = "tb_bs";
-            this.tb_bs.Size = new System.Drawing.Size(41, 30);
+            this.tb_bs.Size = new System.Drawing.Size(40, 30);
             this.tb_bs.TabIndex = 16;
             this.tb_bs.Text = "00";
             this.tb_bs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1576,21 +1594,23 @@
         private System.Windows.Forms.Button DataDelete;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
+        private System.Windows.Forms.Button FcTransmit;
+        private System.Windows.Forms.Button FcDelete;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn CanId;
         private System.Windows.Forms.DataGridViewTextBoxColumn Sid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.DataGridViewTextBoxColumn FrameType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descryption;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SID2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Data2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ST_MIN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrameType2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description2;
     }
 }
 
