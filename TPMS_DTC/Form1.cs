@@ -407,13 +407,27 @@ namespace TPMS_DTC
         // UI 라벨 업데이트 메서드 (스레드 안전 처리)
         private void UpdateLabelSafely(Label label, string text)
         {
-            if (label.InvokeRequired)
+            if (label == CountLav)
             {
-                label.Invoke((MethodInvoker)(() => label.Text = text));
+                if (label.InvokeRequired)
+                {
+                    label.Invoke((MethodInvoker)(() => label.Text = "Count : " + text));
+                }
+                else
+                {
+                    label.Text = "Count : " + text;
+                }
             }
-            else
+            else if (label == CycleLav)
             {
-                label.Text = text;
+                if (label.InvokeRequired)
+                {
+                    label.Invoke((MethodInvoker)(() => label.Text = "Cycle(ms) : " + text));
+                }
+                else
+                {
+                    label.Text = "Cycle(ms) : " + text;
+                }
             }
         }
 

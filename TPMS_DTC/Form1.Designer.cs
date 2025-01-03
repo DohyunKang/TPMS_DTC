@@ -199,6 +199,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.LogListBox = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
             this.LogResetButton = new System.Windows.Forms.Button();
             this.CountLav = new System.Windows.Forms.Label();
             this.CycleLav = new System.Windows.Forms.Label();
@@ -409,7 +410,7 @@
             this.tableLayoutPanel23.ColumnCount = 3;
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.60177F));
             this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.39823F));
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             this.tableLayoutPanel23.Controls.Add(this.DataTransmit, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.DataDelete, 0, 0);
             this.tableLayoutPanel23.Controls.Add(this.label3, 0, 0);
@@ -426,9 +427,9 @@
             // 
             this.DataTransmit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataTransmit.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DataTransmit.Location = new System.Drawing.Point(315, 3);
+            this.DataTransmit.Location = new System.Drawing.Point(322, 3);
             this.DataTransmit.Name = "DataTransmit";
-            this.DataTransmit.Size = new System.Drawing.Size(137, 34);
+            this.DataTransmit.Size = new System.Drawing.Size(130, 34);
             this.DataTransmit.TabIndex = 15;
             this.DataTransmit.Text = "Transmit";
             this.DataTransmit.UseVisualStyleBackColor = true;
@@ -438,9 +439,9 @@
             // 
             this.DataDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataDelete.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DataDelete.Location = new System.Drawing.Point(205, 3);
+            this.DataDelete.Location = new System.Drawing.Point(209, 3);
             this.DataDelete.Name = "DataDelete";
-            this.DataDelete.Size = new System.Drawing.Size(104, 34);
+            this.DataDelete.Size = new System.Drawing.Size(107, 34);
             this.DataDelete.TabIndex = 14;
             this.DataDelete.Text = "Delete";
             this.DataDelete.UseVisualStyleBackColor = true;
@@ -454,7 +455,7 @@
             this.label3.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(3, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(196, 40);
+            this.label3.Size = new System.Drawing.Size(200, 40);
             this.label3.TabIndex = 4;
             this.label3.Text = "Tx";
             // 
@@ -538,7 +539,7 @@
             this.tableLayoutPanel13.ColumnCount = 3;
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.69565F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.30435F));
-            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             this.tableLayoutPanel13.Controls.Add(this.FcTransmit, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.FcDelete, 0, 0);
             this.tableLayoutPanel13.Controls.Add(this.label8, 0, 0);
@@ -554,9 +555,9 @@
             // 
             this.FcTransmit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FcTransmit.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FcTransmit.Location = new System.Drawing.Point(312, 3);
+            this.FcTransmit.Location = new System.Drawing.Point(318, 3);
             this.FcTransmit.Name = "FcTransmit";
-            this.FcTransmit.Size = new System.Drawing.Size(144, 34);
+            this.FcTransmit.Size = new System.Drawing.Size(138, 34);
             this.FcTransmit.TabIndex = 16;
             this.FcTransmit.Text = "Transmit";
             this.FcTransmit.UseVisualStyleBackColor = true;
@@ -566,9 +567,9 @@
             // 
             this.FcDelete.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FcDelete.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FcDelete.Location = new System.Drawing.Point(184, 3);
+            this.FcDelete.Location = new System.Drawing.Point(188, 3);
             this.FcDelete.Name = "FcDelete";
-            this.FcDelete.Size = new System.Drawing.Size(122, 34);
+            this.FcDelete.Size = new System.Drawing.Size(124, 34);
             this.FcDelete.TabIndex = 15;
             this.FcDelete.Text = "Delete";
             this.FcDelete.UseVisualStyleBackColor = true;
@@ -582,7 +583,7 @@
             this.label8.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(175, 40);
+            this.label8.Size = new System.Drawing.Size(179, 40);
             this.label8.TabIndex = 5;
             this.label8.Text = "FlowControl";
             // 
@@ -678,7 +679,7 @@
             this.tableLayoutPanel19.ColumnCount = 3;
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.28571F));
             this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.71428F));
-            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 579F));
+            this.tableLayoutPanel19.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 583F));
             this.tableLayoutPanel19.Controls.Add(this.cb_FS, 0, 1);
             this.tableLayoutPanel19.Controls.Add(this.label14, 2, 0);
             this.tableLayoutPanel19.Controls.Add(this.label11, 1, 0);
@@ -704,7 +705,7 @@
             "Overflow(2)"});
             this.cb_FS.Location = new System.Drawing.Point(3, 22);
             this.cb_FS.Name = "cb_FS";
-            this.cb_FS.Size = new System.Drawing.Size(121, 30);
+            this.cb_FS.Size = new System.Drawing.Size(118, 30);
             this.cb_FS.TabIndex = 9;
             this.cb_FS.Text = "CTS(0)";
             this.cb_FS.SelectedIndexChanged += new System.EventHandler(this.cb_FS_SelectedIndexChanged);
@@ -715,9 +716,9 @@
             this.label14.BackColor = System.Drawing.SystemColors.Control;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label14.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(173, 0);
+            this.label14.Location = new System.Drawing.Point(169, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(574, 19);
+            this.label14.Size = new System.Drawing.Size(578, 19);
             this.label14.TabIndex = 8;
             this.label14.Text = "ST_MIN";
             // 
@@ -727,9 +728,9 @@
             this.label11.BackColor = System.Drawing.SystemColors.Control;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(130, 0);
+            this.label11.Location = new System.Drawing.Point(127, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(37, 19);
+            this.label11.Size = new System.Drawing.Size(36, 19);
             this.label11.TabIndex = 7;
             this.label11.Text = "BS";
             // 
@@ -741,7 +742,7 @@
             this.label10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(121, 19);
+            this.label10.Size = new System.Drawing.Size(118, 19);
             this.label10.TabIndex = 5;
             this.label10.Text = "FS";
             // 
@@ -751,12 +752,12 @@
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.03653F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.96347F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 98F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
             this.tableLayoutPanel21.Controls.Add(this.dud_STmin_us, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.rBtn_ms, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.udStmin_ms, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.rBtn_μs, 3, 0);
-            this.tableLayoutPanel21.Location = new System.Drawing.Point(173, 22);
+            this.tableLayoutPanel21.Location = new System.Drawing.Point(169, 22);
             this.tableLayoutPanel21.Name = "tableLayoutPanel21";
             this.tableLayoutPanel21.RowCount = 1;
             this.tableLayoutPanel21.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -773,7 +774,7 @@
             0,
             0,
             0});
-            this.dud_STmin_us.Location = new System.Drawing.Point(277, 3);
+            this.dud_STmin_us.Location = new System.Drawing.Point(273, 3);
             this.dud_STmin_us.Maximum = new decimal(new int[] {
             900,
             0,
@@ -789,7 +790,7 @@
             this.rBtn_ms.AutoSize = true;
             this.rBtn_ms.Checked = true;
             this.rBtn_ms.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rBtn_ms.Location = new System.Drawing.Point(190, 3);
+            this.rBtn_ms.Location = new System.Drawing.Point(187, 3);
             this.rBtn_ms.Name = "rBtn_ms";
             this.rBtn_ms.Size = new System.Drawing.Size(48, 26);
             this.rBtn_ms.TabIndex = 47;
@@ -808,7 +809,7 @@
             0,
             0});
             this.udStmin_ms.Name = "udStmin_ms";
-            this.udStmin_ms.Size = new System.Drawing.Size(181, 30);
+            this.udStmin_ms.Size = new System.Drawing.Size(178, 30);
             this.udStmin_ms.TabIndex = 44;
             this.udStmin_ms.Value = new decimal(new int[] {
             20,
@@ -821,7 +822,7 @@
             // 
             this.rBtn_μs.AutoSize = true;
             this.rBtn_μs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rBtn_μs.Location = new System.Drawing.Point(438, 3);
+            this.rBtn_μs.Location = new System.Drawing.Point(434, 3);
             this.rBtn_μs.Name = "rBtn_μs";
             this.rBtn_μs.Size = new System.Drawing.Size(48, 26);
             this.rBtn_μs.TabIndex = 50;
@@ -834,10 +835,10 @@
             // 
             this.tb_bs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tb_bs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tb_bs.Location = new System.Drawing.Point(130, 22);
+            this.tb_bs.Location = new System.Drawing.Point(127, 22);
             this.tb_bs.MaxLength = 2;
             this.tb_bs.Name = "tb_bs";
-            this.tb_bs.Size = new System.Drawing.Size(37, 30);
+            this.tb_bs.Size = new System.Drawing.Size(36, 30);
             this.tb_bs.TabIndex = 16;
             this.tb_bs.Text = "00";
             this.tb_bs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1481,13 +1482,15 @@
             // 
             // tableLayoutPanel24
             // 
-            this.tableLayoutPanel24.ColumnCount = 3;
-            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel24.ColumnCount = 4;
+            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15.17761F));
+            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84.82239F));
+            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 800F));
             this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
-            this.tableLayoutPanel24.Controls.Add(this.LogResetButton, 2, 0);
-            this.tableLayoutPanel24.Controls.Add(this.CountLav, 1, 0);
-            this.tableLayoutPanel24.Controls.Add(this.CycleLav, 0, 0);
+            this.tableLayoutPanel24.Controls.Add(this.label9, 0, 0);
+            this.tableLayoutPanel24.Controls.Add(this.LogResetButton, 3, 0);
+            this.tableLayoutPanel24.Controls.Add(this.CountLav, 2, 0);
+            this.tableLayoutPanel24.Controls.Add(this.CycleLav, 1, 0);
             this.tableLayoutPanel24.Location = new System.Drawing.Point(3, 391);
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 1;
@@ -1496,12 +1499,24 @@
             this.tableLayoutPanel24.Size = new System.Drawing.Size(1890, 44);
             this.tableLayoutPanel24.TabIndex = 4;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(3, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(136, 44);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "ID = 593";
+            // 
             // LogResetButton
             // 
             this.LogResetButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.LogResetButton.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogResetButton.Location = new System.Drawing.Point(1741, 3);
+            this.LogResetButton.Location = new System.Drawing.Point(1740, 3);
             this.LogResetButton.Name = "LogResetButton";
             this.LogResetButton.Size = new System.Drawing.Size(144, 38);
             this.LogResetButton.TabIndex = 14;
@@ -1515,11 +1530,11 @@
             this.CountLav.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.CountLav.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CountLav.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CountLav.Location = new System.Drawing.Point(872, 0);
+            this.CountLav.Location = new System.Drawing.Point(940, 0);
             this.CountLav.Name = "CountLav";
-            this.CountLav.Size = new System.Drawing.Size(863, 44);
+            this.CountLav.Size = new System.Drawing.Size(794, 44);
             this.CountLav.TabIndex = 1;
-            this.CountLav.Text = "Count";
+            this.CountLav.Text = "Count :";
             // 
             // CycleLav
             // 
@@ -1527,11 +1542,11 @@
             this.CycleLav.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.CycleLav.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CycleLav.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CycleLav.Location = new System.Drawing.Point(3, 0);
+            this.CycleLav.Location = new System.Drawing.Point(145, 0);
             this.CycleLav.Name = "CycleLav";
-            this.CycleLav.Size = new System.Drawing.Size(863, 44);
+            this.CycleLav.Size = new System.Drawing.Size(789, 44);
             this.CycleLav.TabIndex = 0;
-            this.CycleLav.Text = "Cycle";
+            this.CycleLav.Text = "Cycle(ms) :";
             // 
             // TPMS
             // 
@@ -1681,6 +1696,7 @@
         private System.Windows.Forms.Button LogResetButton;
         private System.Windows.Forms.Label CountLav;
         private System.Windows.Forms.Label CycleLav;
+        private System.Windows.Forms.Label label9;
     }
 }
 
