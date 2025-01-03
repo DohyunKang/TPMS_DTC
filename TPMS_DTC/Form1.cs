@@ -1160,36 +1160,98 @@ namespace TPMS_DTC
                 // === Write Data By Local Identifier ===
                 case "VehicleProject&WheelSize":
                     GetDescriptionForCommand(selectedNode.Name);
-                    SendCanCommand(new byte[] { 0x3B, 0x91, 0x46, 0x53, 0x31, 0x54, 0x00, 0x00 });
+
+                    using (WriteVehicle vehicleForm = new WriteVehicle()) // 서브 폼 열기
+                    {
+                        if (vehicleForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // 서브 폼에서 입력된 메시지를 받아오기
+                            byte[] message = vehicleForm.VehicleMessageBytes;
+
+                            // 메시지 검증
+                            if (message != null && message.Length == 8)
+                            {
+                                SendCanCommand(message); // 메시지 전송
+                            }
+                            else
+                            {
+                                MessageBox.Show("유효하지 않은 메시지입니다.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("메시지 생성이 취소되었습니다.");
+                        }
+                    }
+                    //SendCanCommand(new byte[] { 0x3B, 0x91, 0x46, 0x53, 0x31, 0x54, 0x00, 0x00 });
 
                     break;
 
                 case "ECUIdentificationData":
                     GetDescriptionForCommand(selectedNode.Name);
-                    SendCanCommand(new byte[] { 0x3B, 0x80, 0x54, 0x50, 0x4D, 0x53, 0x48, 0x49, 0x47, 0x48, 0x5F, 0x4C, 0x49, 0x4E, 0x45 });
+
+                    using (WriteECU ecuForm = new WriteECU()) // 서브 폼 열기
+                    {
+                        if (ecuForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // 서브 폼에서 생성된 메시지를 가져옴
+                            byte[] message = ecuForm.ECUMessageBytes;
+
+                            // 메시지 검증
+                            if (message != null && message.Length == 18)
+                            {
+                                SendCanCommand(message); // 메시지 전송
+                            }
+                            else
+                            {
+                                MessageBox.Show("유효하지 않은 메시지입니다.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("메시지 생성이 취소되었습니다.");
+                        }
+                    }
+                    //SendCanCommand(new byte[] { 0x3B, 0x80, 0x54, 0x50, 0x4D, 0x53, 0x48, 0x49, 0x47, 0x48, 0x5F, 0x4C, 0x49, 0x4E, 0x45 });
 
                     break;
 
                 case "HMC/KMCData":
                     GetDescriptionForCommand(selectedNode.Name);
+                    using (WriteHMC hmcForm = new WriteHMC()) // 서브 폼 열기
+                    {
+                        hmcForm.ShowDialog(); // 모달로 폼 띄우기
+                    }
                     SendCanCommand(new byte[] { 0x3B, 0x86, 0x04, 0x02, 0x02 });
 
                     break;
 
                 case "VINData":
                     GetDescriptionForCommand(selectedNode.Name);
+                    using (WriteVIN vinForm = new WriteVIN()) // 서브 폼 열기
+                    {
+                        vinForm.ShowDialog(); // 모달로 폼 띄우기
+                    }
                     SendCanCommand(new byte[] { 0x3B, 0x90, 0x56, 0x49, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
                     break;
 
                 case "SensorIDType":
                     GetDescriptionForCommand(selectedNode.Name);
+                    using (WriteSensor sensorForm = new WriteSensor()) // 서브 폼 열기
+                    {
+                        sensorForm.ShowDialog(); // 모달로 폼 띄우기
+                    }
                     SendCanCommand(new byte[] { 0x3B, 0x8B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
                     break;
 
                 case "ManufacturePartInfo":
                     GetDescriptionForCommand(selectedNode.Name);
+                    using (WriteManufacture manufactureForm = new WriteManufacture()) // 서브 폼 열기
+                    {
+                        manufactureForm.ShowDialog(); // 모달로 폼 띄우기
+                    }
                     SendCanCommand(new byte[] { 0x3B, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
