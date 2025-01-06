@@ -77,7 +77,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.86238F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.13761F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 137F));
             this.tableLayoutPanel2.Controls.Add(this.tbpn_DataByte, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.VehicleMessageCreate, 2, 0);
@@ -112,8 +112,9 @@
             this.tbpn_DataByte.RowCount = 1;
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tbpn_DataByte.Size = new System.Drawing.Size(283, 50);
-            this.tbpn_DataByte.TabIndex = 40;
+            this.tbpn_DataByte.Size = new System.Drawing.Size(282, 50);
+            this.tbpn_DataByte.TabIndex = 1;
+            this.tbpn_DataByte.TabStop = true;
             // 
             // wv_byte4
             // 
@@ -203,10 +204,10 @@
             // 
             this.VehicleMessageCreate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.VehicleMessageCreate.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VehicleMessageCreate.Location = new System.Drawing.Point(446, 3);
+            this.VehicleMessageCreate.Location = new System.Drawing.Point(445, 3);
             this.VehicleMessageCreate.Name = "VehicleMessageCreate";
-            this.VehicleMessageCreate.Size = new System.Drawing.Size(131, 50);
-            this.VehicleMessageCreate.TabIndex = 38;
+            this.VehicleMessageCreate.Size = new System.Drawing.Size(132, 50);
+            this.VehicleMessageCreate.TabIndex = 13;
             this.VehicleMessageCreate.Text = "Create";
             this.VehicleMessageCreate.UseVisualStyleBackColor = true;
             this.VehicleMessageCreate.Click += new System.EventHandler(this.VehicleMessageCreate_Click);

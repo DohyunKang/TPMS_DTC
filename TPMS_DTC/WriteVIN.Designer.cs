@@ -122,7 +122,8 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(660, 50);
-            this.tableLayoutPanel4.TabIndex = 8;
+            this.tableLayoutPanel4.TabIndex = 2;
+            this.tableLayoutPanel4.TabStop = true;
             // 
             // VINMessageCreate
             // 
@@ -131,7 +132,7 @@
             this.VINMessageCreate.Location = new System.Drawing.Point(535, 3);
             this.VINMessageCreate.Name = "VINMessageCreate";
             this.VINMessageCreate.Size = new System.Drawing.Size(122, 44);
-            this.VINMessageCreate.TabIndex = 41;
+            this.VINMessageCreate.TabIndex = 2;
             this.VINMessageCreate.Text = "Create";
             this.VINMessageCreate.UseVisualStyleBackColor = true;
             this.VINMessageCreate.Click += new System.EventHandler(this.VINMessageCreate_Click);
@@ -164,7 +165,8 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(526, 44);
-            this.tableLayoutPanel5.TabIndex = 40;
+            this.tableLayoutPanel5.TabIndex = 1;
+            this.tableLayoutPanel5.TabStop = true;
             // 
             // wvh_byte12
             // 
@@ -276,7 +278,8 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(660, 56);
-            this.tableLayoutPanel3.TabIndex = 7;
+            this.tableLayoutPanel3.TabIndex = 1;
+            this.tableLayoutPanel3.TabStop = true;
             // 
             // tableLayoutPanel8
             // 
@@ -307,7 +310,8 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(513, 50);
-            this.tableLayoutPanel8.TabIndex = 41;
+            this.tableLayoutPanel8.TabIndex = 1;
+            this.tableLayoutPanel8.TabStop = true;
             // 
             // wvh_byte3
             // 

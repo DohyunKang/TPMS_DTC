@@ -120,7 +120,7 @@
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.91781F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.08219F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
             this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel9, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel7, 2, 0);
             this.tableLayoutPanel6.Controls.Add(this.label3, 0, 0);
@@ -131,7 +131,8 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(586, 51);
-            this.tableLayoutPanel6.TabIndex = 9;
+            this.tableLayoutPanel6.TabIndex = 3;
+            this.tableLayoutPanel6.TabStop = true;
             // 
             // tableLayoutPanel9
             // 
@@ -146,8 +147,9 @@
             this.tableLayoutPanel9.RowCount = 2;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(133, 45);
-            this.tableLayoutPanel9.TabIndex = 42;
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(132, 45);
+            this.tableLayoutPanel9.TabIndex = 1;
+            this.tableLayoutPanel9.TabStop = true;
             // 
             // MHzRadio315
             // 
@@ -186,14 +188,15 @@
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel7.Controls.Add(this.wh_byte5, 0, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(374, 3);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(373, 3);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(47, 45);
-            this.tableLayoutPanel7.TabIndex = 40;
+            this.tableLayoutPanel7.TabIndex = 2;
+            this.tableLayoutPanel7.TabStop = true;
             // 
             // wh_byte5
             // 
@@ -223,10 +226,10 @@
             // 
             this.HMCMessageCreate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.HMCMessageCreate.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HMCMessageCreate.Location = new System.Drawing.Point(433, 3);
+            this.HMCMessageCreate.Location = new System.Drawing.Point(432, 3);
             this.HMCMessageCreate.Name = "HMCMessageCreate";
-            this.HMCMessageCreate.Size = new System.Drawing.Size(150, 45);
-            this.HMCMessageCreate.TabIndex = 38;
+            this.HMCMessageCreate.Size = new System.Drawing.Size(151, 45);
+            this.HMCMessageCreate.TabIndex = 3;
             this.HMCMessageCreate.Text = "Create";
             this.HMCMessageCreate.UseVisualStyleBackColor = true;
             this.HMCMessageCreate.Click += new System.EventHandler(this.HMCMessageCreate_Click);
@@ -236,7 +239,7 @@
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.08791F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.91209F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 222F));
             this.tableLayoutPanel4.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel8, 1, 0);
@@ -246,7 +249,8 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(586, 50);
-            this.tableLayoutPanel4.TabIndex = 8;
+            this.tableLayoutPanel4.TabIndex = 2;
+            this.tableLayoutPanel4.TabStop = true;
             // 
             // label2
             // 
@@ -256,7 +260,7 @@
             this.label2.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(220, 50);
+            this.label2.Size = new System.Drawing.Size(219, 50);
             this.label2.TabIndex = 39;
             this.label2.Text = "System Level Setting";
             // 
@@ -288,7 +292,8 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(55, 44);
-            this.tableLayoutPanel5.TabIndex = 40;
+            this.tableLayoutPanel5.TabIndex = 2;
+            this.tableLayoutPanel5.TabStop = true;
             // 
             // wh_byte4
             // 
@@ -310,13 +315,14 @@
             this.tableLayoutPanel8.Controls.Add(this.HighLineRadio, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.LowLineRadio, 0, 1);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(229, 3);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(228, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(132, 44);
-            this.tableLayoutPanel8.TabIndex = 41;
+            this.tableLayoutPanel8.TabIndex = 1;
+            this.tableLayoutPanel8.TabStop = true;
             // 
             // HighLineRadio
             // 
@@ -347,7 +353,7 @@
             this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.91781F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.08219F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel10, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.tbpn_DataByte, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
@@ -357,7 +363,8 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(586, 56);
-            this.tableLayoutPanel3.TabIndex = 7;
+            this.tableLayoutPanel3.TabIndex = 1;
+            this.tableLayoutPanel3.TabStop = true;
             // 
             // tableLayoutPanel10
             // 
@@ -372,8 +379,9 @@
             this.tableLayoutPanel10.RowCount = 2;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(133, 50);
-            this.tableLayoutPanel10.TabIndex = 42;
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(132, 50);
+            this.tableLayoutPanel10.TabIndex = 1;
+            this.tableLayoutPanel10.TabStop = true;
             // 
             // sensorRadio4
             // 
@@ -412,14 +420,15 @@
             this.tbpn_DataByte.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tbpn_DataByte.Controls.Add(this.tableLayoutPanel11, 0, 1);
             this.tbpn_DataByte.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbpn_DataByte.Location = new System.Drawing.Point(368, 3);
+            this.tbpn_DataByte.Location = new System.Drawing.Point(367, 3);
             this.tbpn_DataByte.Name = "tbpn_DataByte";
             this.tbpn_DataByte.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tbpn_DataByte.RowCount = 2;
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tbpn_DataByte.Size = new System.Drawing.Size(215, 50);
-            this.tbpn_DataByte.TabIndex = 40;
+            this.tbpn_DataByte.Size = new System.Drawing.Size(216, 50);
+            this.tbpn_DataByte.TabIndex = 2;
+            this.tbpn_DataByte.TabStop = true;
             // 
             // tableLayoutPanel11
             // 

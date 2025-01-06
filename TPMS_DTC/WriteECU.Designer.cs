@@ -123,7 +123,7 @@
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.53489F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.46511F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
             this.tableLayoutPanel6.Controls.Add(this.tableLayoutPanel7, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.ECUMessageCreate, 2, 0);
@@ -133,7 +133,8 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.Size = new System.Drawing.Size(689, 51);
-            this.tableLayoutPanel6.TabIndex = 9;
+            this.tableLayoutPanel6.TabIndex = 3;
+            this.tableLayoutPanel6.TabStop = true;
             // 
             // tableLayoutPanel7
             // 
@@ -156,14 +157,15 @@
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(318, 45);
-            this.tableLayoutPanel7.TabIndex = 40;
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(317, 45);
+            this.tableLayoutPanel7.TabIndex = 1;
+            this.tableLayoutPanel7.TabStop = true;
             // 
             // we_byte17
             // 
             this.we_byte17.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.we_byte17.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.we_byte17.Location = new System.Drawing.Point(109, 7);
+            this.we_byte17.Location = new System.Drawing.Point(108, 7);
             this.we_byte17.MaxLength = 1;
             this.we_byte17.Name = "we_byte17";
             this.we_byte17.Size = new System.Drawing.Size(35, 30);
@@ -175,7 +177,7 @@
             // 
             this.we_byte18.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.we_byte18.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.we_byte18.Location = new System.Drawing.Point(215, 7);
+            this.we_byte18.Location = new System.Drawing.Point(213, 7);
             this.we_byte18.MaxLength = 1;
             this.we_byte18.Name = "we_byte18";
             this.we_byte18.Size = new System.Drawing.Size(35, 30);
@@ -211,10 +213,10 @@
             // 
             this.ECUMessageCreate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ECUMessageCreate.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ECUMessageCreate.Location = new System.Drawing.Point(538, 3);
+            this.ECUMessageCreate.Location = new System.Drawing.Point(537, 3);
             this.ECUMessageCreate.Name = "ECUMessageCreate";
-            this.ECUMessageCreate.Size = new System.Drawing.Size(148, 45);
-            this.ECUMessageCreate.TabIndex = 38;
+            this.ECUMessageCreate.Size = new System.Drawing.Size(149, 45);
+            this.ECUMessageCreate.TabIndex = 2;
             this.ECUMessageCreate.Text = "Create";
             this.ECUMessageCreate.UseVisualStyleBackColor = true;
             this.ECUMessageCreate.Click += new System.EventHandler(this.ECUMessageCreate_Click);
@@ -224,7 +226,7 @@
             this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.76271F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.23729F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 367F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 368F));
             this.tableLayoutPanel4.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel8, 1, 0);
@@ -234,7 +236,8 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(689, 49);
-            this.tableLayoutPanel4.TabIndex = 8;
+            this.tableLayoutPanel4.TabIndex = 2;
+            this.tableLayoutPanel4.TabStop = true;
             // 
             // label2
             // 
@@ -269,14 +272,15 @@
             this.tableLayoutPanel5.Controls.Add(this.we_byte14, 7, 0);
             this.tableLayoutPanel5.Controls.Add(this.we_byte12, 5, 0);
             this.tableLayoutPanel5.Controls.Add(this.we_byte15, 8, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(324, 3);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(323, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(361, 43);
-            this.tableLayoutPanel5.TabIndex = 40;
+            this.tableLayoutPanel5.TabIndex = 2;
+            this.tableLayoutPanel5.TabStop = true;
             // 
             // we_byte7
             // 
@@ -399,7 +403,8 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel8.Size = new System.Drawing.Size(103, 43);
-            this.tableLayoutPanel8.TabIndex = 41;
+            this.tableLayoutPanel8.TabIndex = 1;
+            this.tableLayoutPanel8.TabStop = true;
             // 
             // HighLineRadio
             // 
@@ -439,7 +444,8 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(689, 56);
-            this.tableLayoutPanel3.TabIndex = 7;
+            this.tableLayoutPanel3.TabIndex = 1;
+            this.tableLayoutPanel3.TabStop = true;
             // 
             // tbpn_DataByte
             // 
