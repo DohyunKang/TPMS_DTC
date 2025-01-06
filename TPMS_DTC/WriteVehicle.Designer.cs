@@ -31,8 +31,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.VehicleMessageCreate = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.tbpn_DataByte = new System.Windows.Forms.TableLayoutPanel();
             this.wv_byte4 = new System.Windows.Forms.TextBox();
             this.wv_byte5 = new System.Windows.Forms.TextBox();
@@ -40,6 +38,8 @@
             this.wv_byte7 = new System.Windows.Forms.TextBox();
             this.wv_byte8 = new System.Windows.Forms.TextBox();
             this.wv_byte3 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.VehicleMessageCreate = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tbpn_DataByte.SuspendLayout();
@@ -57,7 +57,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.58823F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 59.41177F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(697, 103);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(586, 103);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label5
@@ -68,16 +68,16 @@
             this.label5.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(3, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(691, 41);
+            this.label5.Size = new System.Drawing.Size(580, 41);
             this.label5.TabIndex = 5;
             this.label5.Text = "Vehicle Project Name Message";
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.11111F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 83.88889F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.86238F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.13761F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
             this.tableLayoutPanel2.Controls.Add(this.tbpn_DataByte, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.VehicleMessageCreate, 2, 0);
@@ -86,32 +86,8 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(691, 56);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(580, 56);
             this.tableLayoutPanel2.TabIndex = 6;
-            // 
-            // VehicleMessageCreate
-            // 
-            this.VehicleMessageCreate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.VehicleMessageCreate.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VehicleMessageCreate.Location = new System.Drawing.Point(543, 3);
-            this.VehicleMessageCreate.Name = "VehicleMessageCreate";
-            this.VehicleMessageCreate.Size = new System.Drawing.Size(145, 50);
-            this.VehicleMessageCreate.TabIndex = 38;
-            this.VehicleMessageCreate.Text = "Create";
-            this.VehicleMessageCreate.UseVisualStyleBackColor = true;
-            this.VehicleMessageCreate.Click += new System.EventHandler(this.VehicleMessageCreate_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Consolas", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 56);
-            this.label1.TabIndex = 39;
-            this.label1.Text = "Name";
             // 
             // tbpn_DataByte
             // 
@@ -130,21 +106,21 @@
             this.tbpn_DataByte.Controls.Add(this.wv_byte7, 4, 0);
             this.tbpn_DataByte.Controls.Add(this.wv_byte8, 5, 0);
             this.tbpn_DataByte.Controls.Add(this.wv_byte3, 0, 0);
-            this.tbpn_DataByte.Location = new System.Drawing.Point(90, 3);
+            this.tbpn_DataByte.Location = new System.Drawing.Point(157, 3);
             this.tbpn_DataByte.Name = "tbpn_DataByte";
             this.tbpn_DataByte.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tbpn_DataByte.RowCount = 1;
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.tbpn_DataByte.Size = new System.Drawing.Size(447, 50);
+            this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tbpn_DataByte.Size = new System.Drawing.Size(283, 50);
             this.tbpn_DataByte.TabIndex = 40;
             // 
             // wv_byte4
             // 
             this.wv_byte4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wv_byte4.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wv_byte4.Location = new System.Drawing.Point(77, 10);
-            this.wv_byte4.MaxLength = 2;
+            this.wv_byte4.Location = new System.Drawing.Point(50, 10);
+            this.wv_byte4.MaxLength = 1;
             this.wv_byte4.Name = "wv_byte4";
             this.wv_byte4.Size = new System.Drawing.Size(35, 30);
             this.wv_byte4.TabIndex = 8;
@@ -155,8 +131,8 @@
             // 
             this.wv_byte5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wv_byte5.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wv_byte5.Location = new System.Drawing.Point(151, 10);
-            this.wv_byte5.MaxLength = 2;
+            this.wv_byte5.Location = new System.Drawing.Point(97, 10);
+            this.wv_byte5.MaxLength = 1;
             this.wv_byte5.Name = "wv_byte5";
             this.wv_byte5.Size = new System.Drawing.Size(35, 30);
             this.wv_byte5.TabIndex = 9;
@@ -167,8 +143,8 @@
             // 
             this.wv_byte6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wv_byte6.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wv_byte6.Location = new System.Drawing.Point(225, 10);
-            this.wv_byte6.MaxLength = 2;
+            this.wv_byte6.Location = new System.Drawing.Point(144, 10);
+            this.wv_byte6.MaxLength = 1;
             this.wv_byte6.Name = "wv_byte6";
             this.wv_byte6.Size = new System.Drawing.Size(35, 30);
             this.wv_byte6.TabIndex = 10;
@@ -179,8 +155,8 @@
             // 
             this.wv_byte7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wv_byte7.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wv_byte7.Location = new System.Drawing.Point(299, 10);
-            this.wv_byte7.MaxLength = 2;
+            this.wv_byte7.Location = new System.Drawing.Point(191, 10);
+            this.wv_byte7.MaxLength = 1;
             this.wv_byte7.Name = "wv_byte7";
             this.wv_byte7.Size = new System.Drawing.Size(35, 30);
             this.wv_byte7.TabIndex = 11;
@@ -191,8 +167,8 @@
             // 
             this.wv_byte8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wv_byte8.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wv_byte8.Location = new System.Drawing.Point(373, 10);
-            this.wv_byte8.MaxLength = 2;
+            this.wv_byte8.Location = new System.Drawing.Point(238, 10);
+            this.wv_byte8.MaxLength = 1;
             this.wv_byte8.Name = "wv_byte8";
             this.wv_byte8.Size = new System.Drawing.Size(35, 30);
             this.wv_byte8.TabIndex = 12;
@@ -204,18 +180,42 @@
             this.wv_byte3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wv_byte3.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.wv_byte3.Location = new System.Drawing.Point(3, 10);
-            this.wv_byte3.MaxLength = 2;
+            this.wv_byte3.MaxLength = 1;
             this.wv_byte3.Name = "wv_byte3";
             this.wv_byte3.Size = new System.Drawing.Size(35, 30);
             this.wv_byte3.TabIndex = 6;
             this.wv_byte3.Text = "00";
             this.wv_byte3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(148, 56);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "Name(ASCII)";
+            // 
+            // VehicleMessageCreate
+            // 
+            this.VehicleMessageCreate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VehicleMessageCreate.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VehicleMessageCreate.Location = new System.Drawing.Point(446, 3);
+            this.VehicleMessageCreate.Name = "VehicleMessageCreate";
+            this.VehicleMessageCreate.Size = new System.Drawing.Size(131, 50);
+            this.VehicleMessageCreate.TabIndex = 38;
+            this.VehicleMessageCreate.Text = "Create";
+            this.VehicleMessageCreate.UseVisualStyleBackColor = true;
+            this.VehicleMessageCreate.Click += new System.EventHandler(this.VehicleMessageCreate_Click);
+            // 
             // WriteVehicle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 99);
+            this.ClientSize = new System.Drawing.Size(588, 100);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "WriteVehicle";
             this.Text = "WriteVehicle";

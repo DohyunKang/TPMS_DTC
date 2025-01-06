@@ -1220,9 +1220,27 @@ namespace TPMS_DTC
                     GetDescriptionForCommand(selectedNode.Name);
                     using (WriteHMC hmcForm = new WriteHMC()) // 서브 폼 열기
                     {
-                        hmcForm.ShowDialog(); // 모달로 폼 띄우기
+                        if (hmcForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // 서브 폼에서 생성된 메시지를 가져옴
+                            byte[] message = hmcForm.HMCMessageBytes;
+
+                            // 메시지 검증
+                            if (message != null && message.Length == 5)
+                            {
+                                SendCanCommand(message); // 메시지 전송
+                            }
+                            else
+                            {
+                                MessageBox.Show("유효하지 않은 메시지입니다.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("메시지 생성이 취소되었습니다.");
+                        }
                     }
-                    SendCanCommand(new byte[] { 0x3B, 0x86, 0x04, 0x02, 0x02 });
+                    //SendCanCommand(new byte[] { 0x3B, 0x86, 0x04, 0x02, 0x02 });
 
                     break;
 
@@ -1230,33 +1248,91 @@ namespace TPMS_DTC
                     GetDescriptionForCommand(selectedNode.Name);
                     using (WriteVIN vinForm = new WriteVIN()) // 서브 폼 열기
                     {
-                        vinForm.ShowDialog(); // 모달로 폼 띄우기
+                        if (vinForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // VIN 메시지 가져오기
+                            byte[] vinMessage = vinForm.VINMessageBytes;
+
+                            // SendCanCommand 호출
+                            if (vinMessage != null && vinMessage.Length == 19)
+                            {
+                                SendCanCommand(vinMessage);
+                            }
+                            else
+                            {
+                                MessageBox.Show("VIN 메시지가 유효하지 않습니다.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("VIN 메시지 입력이 취소되었습니다.");
+                        }
                     }
-                    SendCanCommand(new byte[] { 0x3B, 0x90, 0x56, 0x49, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+
+                    //SendCanCommand(new byte[] { 0x3B, 0x90, 0x56, 0x49, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
                     break;
 
                 case "SensorIDType":
                     GetDescriptionForCommand(selectedNode.Name);
+                    
                     using (WriteSensor sensorForm = new WriteSensor()) // 서브 폼 열기
                     {
-                        sensorForm.ShowDialog(); // 모달로 폼 띄우기
+                        if (sensorForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // Sensor 메시지 가져오기
+                            byte[] sensorMessage = sensorForm.SensorMessageBytes;
+
+                            // SendCanCommand 호출
+                            if (sensorMessage != null && sensorMessage.Length == 18)
+                            {
+                                SendCanCommand(sensorMessage);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sensor 메시지가 유효하지 않습니다. 데이터를 확인해주세요.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Sensor 메시지 입력이 취소되었습니다.", "취소", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
-                    SendCanCommand(new byte[] { 0x3B, 0x8B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+
+                    //SendCanCommand(new byte[] { 0x3B, 0x8B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
                     break;
 
                 case "ManufacturePartInfo":
                     GetDescriptionForCommand(selectedNode.Name);
+
                     using (WriteManufacture manufactureForm = new WriteManufacture()) // 서브 폼 열기
                     {
-                        manufactureForm.ShowDialog(); // 모달로 폼 띄우기
+                        if (manufactureForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // Manufacture 메시지 가져오기
+                            byte[] manufactureMessage = manufactureForm.ManufactureMessageBytes;
+
+                            // SendCanCommand 호출
+                            if (manufactureMessage != null && manufactureMessage.Length == 42)
+                            {
+                                SendCanCommand(manufactureMessage);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Manufacture 메시지가 유효하지 않습니다.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Manufacture 메시지 입력이 취소되었습니다.");
+                        }
                     }
-                    SendCanCommand(new byte[] { 0x3B, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                    /*SendCanCommand(new byte[] { 0x3B, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x31, 0x30, 0x31, 0x30
-                    , 0x00, 0x00, 0x00, 0x00});
+                    , 0x00, 0x00, 0x00, 0x00});*/
 
                     break;
 

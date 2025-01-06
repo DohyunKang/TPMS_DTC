@@ -119,8 +119,20 @@
     <EmbeddedResource Include="WriteECU.resx">
       <DependentUpon>WriteECU.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WriteHMC.resx">
+      <DependentUpon>WriteHMC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WriteManufacture.resx">
+      <DependentUpon>WriteManufacture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WriteSensor.resx">
+      <DependentUpon>WriteSensor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WriteVehicle.resx">
       <DependentUpon>WriteVehicle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WriteVIN.resx">
+      <DependentUpon>WriteVIN.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
