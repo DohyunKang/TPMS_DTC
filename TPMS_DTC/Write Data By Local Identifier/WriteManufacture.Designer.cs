@@ -39,8 +39,6 @@
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.tbpn_DataByte = new System.Windows.Forms.TableLayoutPanel();
             this.wm_byte40 = new System.Windows.Forms.TextBox();
-            this.wm_byte41 = new System.Windows.Forms.TextBox();
-            this.wm_byte42 = new System.Windows.Forms.TextBox();
             this.wm_byte39 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ManufacturerMessage = new System.Windows.Forms.Button();
@@ -243,7 +241,7 @@
             this.tableLayoutPanel9.ColumnCount = 3;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.48812F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.51187F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.tableLayoutPanel9.Controls.Add(this.tbpn_DataByte, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.ManufacturerMessage, 2, 0);
@@ -258,7 +256,7 @@
             // 
             // tbpn_DataByte
             // 
-            this.tbpn_DataByte.ColumnCount = 4;
+            this.tbpn_DataByte.ColumnCount = 2;
             this.tbpn_DataByte.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tbpn_DataByte.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tbpn_DataByte.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
@@ -268,8 +266,6 @@
             this.tbpn_DataByte.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tbpn_DataByte.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tbpn_DataByte.Controls.Add(this.wm_byte40, 1, 0);
-            this.tbpn_DataByte.Controls.Add(this.wm_byte41, 2, 0);
-            this.tbpn_DataByte.Controls.Add(this.wm_byte42, 3, 0);
             this.tbpn_DataByte.Controls.Add(this.wm_byte39, 0, 0);
             this.tbpn_DataByte.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbpn_DataByte.Location = new System.Drawing.Point(271, 3);
@@ -278,44 +274,20 @@
             this.tbpn_DataByte.RowCount = 1;
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbpn_DataByte.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.tbpn_DataByte.Size = new System.Drawing.Size(483, 39);
+            this.tbpn_DataByte.Size = new System.Drawing.Size(482, 39);
             this.tbpn_DataByte.TabIndex = 6;
             // 
             // wm_byte40
             // 
             this.wm_byte40.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte40.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte40.Location = new System.Drawing.Point(123, 4);
+            this.wm_byte40.Location = new System.Drawing.Point(244, 4);
             this.wm_byte40.MaxLength = 2;
             this.wm_byte40.Name = "wm_byte40";
             this.wm_byte40.Size = new System.Drawing.Size(35, 30);
             this.wm_byte40.TabIndex = 38;
             this.wm_byte40.Text = "00";
             this.wm_byte40.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // wm_byte41
-            // 
-            this.wm_byte41.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.wm_byte41.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte41.Location = new System.Drawing.Point(243, 4);
-            this.wm_byte41.MaxLength = 2;
-            this.wm_byte41.Name = "wm_byte41";
-            this.wm_byte41.Size = new System.Drawing.Size(35, 30);
-            this.wm_byte41.TabIndex = 39;
-            this.wm_byte41.Text = "00";
-            this.wm_byte41.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // wm_byte42
-            // 
-            this.wm_byte42.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.wm_byte42.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte42.Location = new System.Drawing.Point(363, 4);
-            this.wm_byte42.MaxLength = 2;
-            this.wm_byte42.Name = "wm_byte42";
-            this.wm_byte42.Size = new System.Drawing.Size(35, 30);
-            this.wm_byte42.TabIndex = 40;
-            this.wm_byte42.Text = "00";
-            this.wm_byte42.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // wm_byte39
             // 
@@ -345,9 +317,9 @@
             // 
             this.ManufacturerMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ManufacturerMessage.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ManufacturerMessage.Location = new System.Drawing.Point(760, 3);
+            this.ManufacturerMessage.Location = new System.Drawing.Point(759, 3);
             this.ManufacturerMessage.Name = "ManufacturerMessage";
-            this.ManufacturerMessage.Size = new System.Drawing.Size(149, 39);
+            this.ManufacturerMessage.Size = new System.Drawing.Size(150, 39);
             this.ManufacturerMessage.TabIndex = 41;
             this.ManufacturerMessage.Text = "Create";
             this.ManufacturerMessage.UseVisualStyleBackColor = true;
@@ -619,7 +591,7 @@
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 51F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel8.Controls.Add(this.wm_byte11, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.wm_byte10, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.wm_byte9, 0, 0);
@@ -647,7 +619,7 @@
             // 
             this.wm_byte11.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte11.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte11.Location = new System.Drawing.Point(437, 6);
+            this.wm_byte11.Location = new System.Drawing.Point(432, 6);
             this.wm_byte11.MaxLength = 1;
             this.wm_byte11.Name = "wm_byte11";
             this.wm_byte11.Size = new System.Drawing.Size(33, 30);
@@ -659,7 +631,7 @@
             // 
             this.wm_byte10.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte10.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte10.Location = new System.Drawing.Point(381, 6);
+            this.wm_byte10.Location = new System.Drawing.Point(377, 6);
             this.wm_byte10.MaxLength = 1;
             this.wm_byte10.Name = "wm_byte10";
             this.wm_byte10.Size = new System.Drawing.Size(33, 30);
@@ -671,7 +643,7 @@
             // 
             this.wm_byte9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte9.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte9.Location = new System.Drawing.Point(326, 6);
+            this.wm_byte9.Location = new System.Drawing.Point(323, 6);
             this.wm_byte9.MaxLength = 1;
             this.wm_byte9.Name = "wm_byte9";
             this.wm_byte9.Size = new System.Drawing.Size(33, 30);
@@ -683,7 +655,7 @@
             // 
             this.wm_byte14.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte14.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte14.Location = new System.Drawing.Point(590, 6);
+            this.wm_byte14.Location = new System.Drawing.Point(585, 6);
             this.wm_byte14.MaxLength = 1;
             this.wm_byte14.Name = "wm_byte14";
             this.wm_byte14.Size = new System.Drawing.Size(33, 30);
@@ -695,7 +667,7 @@
             // 
             this.wm_byte13.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte13.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte13.Location = new System.Drawing.Point(539, 6);
+            this.wm_byte13.Location = new System.Drawing.Point(534, 6);
             this.wm_byte13.MaxLength = 1;
             this.wm_byte13.Name = "wm_byte13";
             this.wm_byte13.Size = new System.Drawing.Size(33, 30);
@@ -707,7 +679,7 @@
             // 
             this.wm_byte12.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte12.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte12.Location = new System.Drawing.Point(486, 6);
+            this.wm_byte12.Location = new System.Drawing.Point(481, 6);
             this.wm_byte12.MaxLength = 1;
             this.wm_byte12.Name = "wm_byte12";
             this.wm_byte12.Size = new System.Drawing.Size(33, 30);
@@ -755,7 +727,7 @@
             // 
             this.wm_byte8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte8.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte8.Location = new System.Drawing.Point(273, 6);
+            this.wm_byte8.Location = new System.Drawing.Point(271, 6);
             this.wm_byte8.MaxLength = 1;
             this.wm_byte8.Name = "wm_byte8";
             this.wm_byte8.Size = new System.Drawing.Size(33, 30);
@@ -767,7 +739,7 @@
             // 
             this.wm_byte7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte7.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte7.Location = new System.Drawing.Point(221, 6);
+            this.wm_byte7.Location = new System.Drawing.Point(220, 6);
             this.wm_byte7.MaxLength = 1;
             this.wm_byte7.Name = "wm_byte7";
             this.wm_byte7.Size = new System.Drawing.Size(33, 30);
@@ -842,7 +814,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 51F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel5.Controls.Add(this.wm_byte23, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.wm_byte22, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.wm_byte21, 0, 0);
@@ -870,7 +842,7 @@
             // 
             this.wm_byte23.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte23.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte23.Location = new System.Drawing.Point(437, 6);
+            this.wm_byte23.Location = new System.Drawing.Point(432, 6);
             this.wm_byte23.MaxLength = 1;
             this.wm_byte23.Name = "wm_byte23";
             this.wm_byte23.Size = new System.Drawing.Size(33, 30);
@@ -882,7 +854,7 @@
             // 
             this.wm_byte22.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte22.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte22.Location = new System.Drawing.Point(381, 6);
+            this.wm_byte22.Location = new System.Drawing.Point(377, 6);
             this.wm_byte22.MaxLength = 1;
             this.wm_byte22.Name = "wm_byte22";
             this.wm_byte22.Size = new System.Drawing.Size(33, 30);
@@ -894,7 +866,7 @@
             // 
             this.wm_byte21.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte21.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte21.Location = new System.Drawing.Point(326, 6);
+            this.wm_byte21.Location = new System.Drawing.Point(323, 6);
             this.wm_byte21.MaxLength = 1;
             this.wm_byte21.Name = "wm_byte21";
             this.wm_byte21.Size = new System.Drawing.Size(33, 30);
@@ -906,7 +878,7 @@
             // 
             this.wm_byte26.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte26.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte26.Location = new System.Drawing.Point(589, 6);
+            this.wm_byte26.Location = new System.Drawing.Point(584, 6);
             this.wm_byte26.MaxLength = 1;
             this.wm_byte26.Name = "wm_byte26";
             this.wm_byte26.Size = new System.Drawing.Size(33, 30);
@@ -918,7 +890,7 @@
             // 
             this.wm_byte25.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte25.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte25.Location = new System.Drawing.Point(538, 6);
+            this.wm_byte25.Location = new System.Drawing.Point(533, 6);
             this.wm_byte25.MaxLength = 1;
             this.wm_byte25.Name = "wm_byte25";
             this.wm_byte25.Size = new System.Drawing.Size(33, 30);
@@ -930,7 +902,7 @@
             // 
             this.wm_byte24.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte24.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte24.Location = new System.Drawing.Point(486, 6);
+            this.wm_byte24.Location = new System.Drawing.Point(481, 6);
             this.wm_byte24.MaxLength = 1;
             this.wm_byte24.Name = "wm_byte24";
             this.wm_byte24.Size = new System.Drawing.Size(33, 30);
@@ -978,7 +950,7 @@
             // 
             this.wm_byte20.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte20.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte20.Location = new System.Drawing.Point(273, 6);
+            this.wm_byte20.Location = new System.Drawing.Point(271, 6);
             this.wm_byte20.MaxLength = 1;
             this.wm_byte20.Name = "wm_byte20";
             this.wm_byte20.Size = new System.Drawing.Size(33, 30);
@@ -990,7 +962,7 @@
             // 
             this.wm_byte19.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.wm_byte19.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wm_byte19.Location = new System.Drawing.Point(221, 6);
+            this.wm_byte19.Location = new System.Drawing.Point(220, 6);
             this.wm_byte19.MaxLength = 1;
             this.wm_byte19.Name = "wm_byte19";
             this.wm_byte19.Size = new System.Drawing.Size(33, 30);
@@ -1074,8 +1046,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.TableLayoutPanel tbpn_DataByte;
         private System.Windows.Forms.TextBox wm_byte40;
-        private System.Windows.Forms.TextBox wm_byte41;
-        private System.Windows.Forms.TextBox wm_byte42;
         private System.Windows.Forms.TextBox wm_byte39;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ManufacturerMessage;

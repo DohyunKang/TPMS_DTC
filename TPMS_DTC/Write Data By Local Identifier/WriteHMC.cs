@@ -42,11 +42,11 @@ namespace TPMS_DTC
 
             if (HighLineRadio.Checked)
             {
-                SetByteValue(4, "01");
+                SetByteValue(4, "02");
             }
             else if (LowLineRadio.Checked)
             {
-                SetByteValue(4, "02");
+                SetByteValue(4, "01");
             }
 
             if (MHzRadio315.Checked)

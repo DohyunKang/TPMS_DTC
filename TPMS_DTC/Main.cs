@@ -1670,20 +1670,35 @@ namespace TPMS_DTC
         private string ParseManufacturerPartInfo(List<byte> data)
         {
             string parsedInfo;
-            int requiredLength = 38; // 최소 데이터 길이
+            int requiredLength = 40; // 최소 데이터 길이
 
             // 패딩 처리
             data = EnsureDataLength(data, requiredLength);
 
+            // Manufacturer Part Numbers: ASCII 값에서 문자열로 변환
             string partNum1 = Encoding.ASCII.GetString(data.GetRange(2, 12).ToArray()).TrimEnd('\0'); // Manufacturer Part Number1
             string partNum2 = Encoding.ASCII.GetString(data.GetRange(14, 12).ToArray()).TrimEnd('\0'); // Manufacturer Part Number2
-            string date = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}/{4:X2}{5:X2}/{6:X2}{7:X2}", 
-                data[26], data[27], data[28], data[29], data[30], data[31], data[32], data[33]);
+
+            // 날짜(Date) 처리: ASCII 값 -> 문자열로 변환
+            string year = Encoding.ASCII.GetString(data.GetRange(26, 4).ToArray()).TrimEnd('\0'); // Year
+            string month = Encoding.ASCII.GetString(data.GetRange(30, 2).ToArray()).TrimEnd('\0'); // Month
+            string day = Encoding.ASCII.GetString(data.GetRange(32, 2).ToArray()).TrimEnd('\0'); // Day
+            string date = string.Format("{0}/{1}/{2}", year, month, day);
+
+            // H/W와 S/W Version: ASCII 값 -> 문자열로 변환
             string hw = Encoding.ASCII.GetString(data.GetRange(34, 2).ToArray()).TrimEnd('\0'); // H/W Version
             string sw = Encoding.ASCII.GetString(data.GetRange(36, 2).ToArray()).TrimEnd('\0'); // S/W Version
 
-            parsedInfo = string.Format("Manufacturer Part Number 1: {0}, Manufacturer Part Number 2: {1}, Date: {2}, H/W Version: {3}, S/W Version: {4}",
-                partNum1, partNum2, date, hw, sw);
+            // Ignition Count 처리: 헥사 값을 각각 십진수로 변환
+            int ignitionCount1 = data[38]; // 상위 바이트
+            int ignitionCount2 = data[39]; // 하위 바이트
+            string ignitionCount = (ignitionCount1 * 256 + ignitionCount2).ToString(); // 상위 바이트와 하위 바이트를 결합한 값
+
+            // 최종 파싱된 정보 생성
+            parsedInfo = string.Format(
+                "Manufacturer Part Number 1: {0}, Manufacturer Part Number 2: {1}, Date: {2}, H/W Version: {3}, S/W Version: {4}, Ignition Count Since Factory: {5}",
+                partNum1, partNum2, date, hw, sw, ignitionCount
+            );
 
             return parsedInfo;
         }
@@ -1713,7 +1728,7 @@ namespace TPMS_DTC
         private string ParseVIN(List<byte> data)
         {
             string parsedInfo;
-            int requiredLength = 18; // 최소 데이터 길이
+            int requiredLength = 19; // 최소 데이터 길이
 
             // 패딩 처리
             data = EnsureDataLength(data, requiredLength);
@@ -1733,9 +1748,9 @@ namespace TPMS_DTC
             // 패딩 처리
             data = EnsureDataLength(data, requiredLength);
 
-            string numSensor = data[2] == 0x04 ? "4" : data[2] == 0x05 ? "5" : "Unknown";
-            string levelSet = data[3] == 0x01 ? "Low Line" : data[3] == 0x02 ? "High Line" : "Unknown";
-            string rfConfig = data[4] == 0x01 ? "315MHz" : data[4] == 0x02 ? "433.92MHz" : "Unknown";
+            string numSensor = data[3] == 0x04 ? "4" : data[3] == 0x05 ? "5" : "Unknown";
+            string levelSet = data[4] == 0x01 ? "Low Line" : data[4] == 0x02 ? "High Line" : "Unknown";
+            string rfConfig = data[5] == 0x01 ? "315MHz" : data[5] == 0x02 ? "433.92MHz" : "Unknown";
 
             parsedInfo = string.Format("Number of Sensors: {0}, System Level Setting: {1}, RF Configuration: {2}",
                 numSensor, levelSet, rfConfig);
@@ -1815,37 +1830,38 @@ namespace TPMS_DTC
 
             string parsedData = string.Empty;
 
-            // Description에 따라 데이터 파싱
-            if (description.Contains("Manufacturer Part"))
-            {
-                parsedData = ParseManufacturerPartInfo(receivedData2);
-            }
-            else if (description.Contains("Sensor ID"))
-            {
-                parsedData = ParseSensorID(receivedData2);
-            }
-            else if (description.Contains("VIN"))
-            {
-                parsedData = ParseVIN(receivedData2);
-            }
-            else if (description.Contains("HMC/KMC"))
-            {
-                parsedData = ParseHMCKMC(receivedData2);
-            }
-            else if (description.Contains("ECU Identification"))
-            {
-                parsedData = ParseECUIdentification(receivedData2);
-            }
-            else if (description.Contains("Vehicle Project"))
-            {
-                parsedData = ParseVehicleProjectName(receivedData2);
-            }
-
+            // MultiFrame 처리
             if (message.DATA[0] >> 4 == 0x10 || (message.DATA[0] >= 0x21 && message.DATA[0] < 0x30))
             {
+                // Description에 따라 데이터 파싱
+                if (description.Contains("Request Manufacturer Part"))
+                {
+                    parsedData = ParseManufacturerPartInfo(receivedData2);
+                }
+                else if (description.Contains("Request Sensor"))
+                {
+                    parsedData = ParseSensorID(receivedData2);
+                }
+                else if (description.Contains("Request Vehicle Identification"))
+                {
+                    parsedData = ParseVIN(receivedData2);
+                }
+                else if (description.Contains("Request HMC/KMC"))
+                {
+                    parsedData = ParseHMCKMC(receivedData2);
+                }
+                else if (description.Contains("Request ECU Identification"))
+                {
+                    parsedData = ParseECUIdentification(receivedData2);
+                }
+                else if (description.Contains("Request Vehicle Project"))
+                {
+                    parsedData = ParseVehicleProjectName(receivedData2);
+                }
+
+                // 데이터 길이가 예상 길이에 도달한 경우 추가 정보 출력
                 if (receivedData2.Count >= expectedDataLength)
                 {
-                    // 추가 정보 로그로 출력
                     if (!string.IsNullOrEmpty(parsedData))
                     {
                         LogAdditionalDescription(parsedData);
@@ -1853,8 +1869,30 @@ namespace TPMS_DTC
 
                     receivedData2.Clear();
                     expectedDataLength = 0;
-
                 }
+            }
+            // SingleFrame 처리
+            else if (message.DATA[0] >> 4 == 0x00) // SingleFrame (0x00 indicates SF in PCI byte)
+            {
+                // Description에 따라 데이터 파싱
+                if (description.Contains("Request HMC/KMC"))
+                {
+                    // SingleFrame 데이터 그대로 파싱
+                    parsedData = ParseHMCKMC(new List<byte>(message.DATA.Take(message.LEN)));
+
+                    if (!string.IsNullOrEmpty(parsedData))
+                    {
+                        LogAdditionalDescription(parsedData);
+                    }
+                    else
+                    {
+
+                    }
+                }      
+            }
+            else if (message.DATA[1] == 0x7F)
+            {
+                // 특정 에러 메시지 처리 (필요하면 추가)
             }
         }
 

@@ -46,21 +46,22 @@ namespace TPMS_DTC
                 }
             }
 
-            // wm_byte39 ~ wm_byte42: Hexadecimal 입력 처리
-            for (int i = 38; i < 42; i++)
+            // wm_byte39 ~ wm_byte40: Decimal 입력 처리 (UI에서 십진수 입력 기준)
+            for (int i = 38; i < 40; i++)
             {
                 string textBoxName = "wm_byte" + (i + 1).ToString();
                 TextBox textBox = this.Controls.Find(textBoxName, true).FirstOrDefault() as TextBox;
                 if (textBox != null)
                 {
                     int value;
-                    if (int.TryParse(textBox.Text, System.Globalization.NumberStyles.HexNumber, null, out value))
+                    // 입력값을 10진수로 해석
+                    if (int.TryParse(textBox.Text, out value) && value >= 0 && value <= 255)
                     {
-                        message[i] = (byte)value; // Hex -> byte
+                        message[i] = (byte)value; // 10진수 -> byte (16진수로 저장)
                     }
                     else
                     {
-                        MessageBox.Show("Invalid input in " + textBoxName + ". Please enter a valid hexadecimal value.");
+                        MessageBox.Show("Invalid input in " + textBoxName + ". Please enter a decimal value between 0 and 255.");
                         return;
                     }
                 }
