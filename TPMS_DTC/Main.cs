@@ -64,6 +64,7 @@ namespace TPMS_DTC
 
         // 수신 메시지를 처리하기 위한 변수 선언
         private List<byte> receivedData = new List<byte>();
+        private List<byte> receivedData2 = new List<byte>();
         private int expectedDataLength = 0; // 전체 데이터 길이
 
         //Tx 메세지의 Description을 처리하기 위한 변수 선언
@@ -72,6 +73,9 @@ namespace TPMS_DTC
         // 이전 시간과 현재 시간 기록을 위한 변수
         private double previousTimestamp = 0.0; // 이전 타임스탬프
         private int count = 0; // Count 값
+
+        //MultiFrame의 데이터 파싱
+        //private string parsedData; 
 
         public TPMS()
         {
@@ -275,7 +279,7 @@ namespace TPMS_DTC
                     // 더 이상 읽을 메시지가 없거나 에러 시 break
                     break;
                 }
-
+                
                 // 수신 메시지
                 DateTime now = DateTime.Now;
                 string canIdHex = message.ID.ToString("X3");
@@ -291,7 +295,7 @@ namespace TPMS_DTC
 
                     // FC 전송 준비
                     SendFlowControl(handle, blockSize: 0, stMin: 5);
-
+                    
                     description = "First Frame : " + data_description;
                     type = "MultiFrame";
                 }
@@ -352,7 +356,7 @@ namespace TPMS_DTC
                 {
                     description = "Response : " + data_description;
                 }
-                
+
                 if (canIdHex == "593")
                 {
                     description = "There is no Tx";
@@ -377,6 +381,9 @@ namespace TPMS_DTC
 
                 // LogListBox에 표시
                 UpdateDisplay(rxEntry);
+
+                // Rx 데이터 파싱 호출
+                ProcessRxData(message, description);
             }
         }
 
@@ -442,8 +449,28 @@ namespace TPMS_DTC
             // 기본 배경과 텍스트 색상 설정
             e.DrawBackground();
 
+            //기본 색상
+            Brush textBrush = Brushes.Black;
+
             // 텍스트 색상 변경 (Description이 "Error"로 시작하는 경우 빨간색)
-            Brush textBrush = itemText.Contains("Error") ? Brushes.Red : Brushes.Black;
+            if(itemText.Contains("Error"))
+            {
+                textBrush = Brushes.Red;
+            }
+            else if(itemText.StartsWith("Read Info"))
+            {
+                textBrush = Brushes.Blue;
+            }
+            else
+            {
+                textBrush = Brushes.Black;
+            }
+
+            // 텍스트 색상 변경 (Description이 "Error"로 시작하는 경우 빨간색)
+            //Brush textBrush = itemText.Contains("Error") ? Brushes.Red : Brushes.Black;
+
+            // 텍스트 색상 설정 (Decription이 "Additional Info"로 시작하는 경우 파란색)
+            //Brush textBrush2 = itemText.StartsWith("Additional Info") ? Brushes.Blue : Brushes.Black;
 
             // 텍스트 그리기
             e.Graphics.DrawString(itemText, e.Font, textBrush, e.Bounds);
@@ -1005,6 +1032,9 @@ namespace TPMS_DTC
             // LogListBox에 추가
             LogListBox.Items.Add(logText);
 
+            // 자동 저장 호출
+            LogListBox_ItemsChanged(null, null);
+
             // 표시 항목 수 제한 (예: 100개)
             if (LogListBox.Items.Count > 100)
             {
@@ -1275,7 +1305,7 @@ namespace TPMS_DTC
 
                 case "SensorIDType":
                     GetDescriptionForCommand(selectedNode.Name);
-                    
+
                     using (WriteSensor sensorForm = new WriteSensor()) // 서브 폼 열기
                     {
                         if (sensorForm.ShowDialog() == DialogResult.OK)
@@ -1477,6 +1507,10 @@ namespace TPMS_DTC
             }
         }
 
+        //===============================================================================================
+        //   명령어 전송 관련 메서드
+        //===============================================================================================
+
         // CAN 명령 데이터를 tb_byte0 ~ tb_byte7에 적용하는 함수
         private void SendCanCommand(byte[] command)
         {
@@ -1628,6 +1662,206 @@ namespace TPMS_DTC
             }
         }
 
+        //===============================================================================================
+        //   TX(Read)일떄 RX 데이터 파싱 관련 메서드
+        //===============================================================================================
+
+        // Manufacturer Part Information 처리
+        private string ParseManufacturerPartInfo(List<byte> data)
+        {
+            string parsedInfo;
+            int requiredLength = 38; // 최소 데이터 길이
+
+            // 패딩 처리
+            data = EnsureDataLength(data, requiredLength);
+
+            string partNum1 = Encoding.ASCII.GetString(data.GetRange(2, 12).ToArray()).TrimEnd('\0'); // Manufacturer Part Number1
+            string partNum2 = Encoding.ASCII.GetString(data.GetRange(14, 12).ToArray()).TrimEnd('\0'); // Manufacturer Part Number2
+            string date = string.Format("{0:X2}{1:X2}{2:X2}{3:X2}/{4:X2}{5:X2}/{6:X2}{7:X2}", 
+                data[26], data[27], data[28], data[29], data[30], data[31], data[32], data[33]);
+            string hw = Encoding.ASCII.GetString(data.GetRange(34, 2).ToArray()).TrimEnd('\0'); // H/W Version
+            string sw = Encoding.ASCII.GetString(data.GetRange(36, 2).ToArray()).TrimEnd('\0'); // S/W Version
+
+            parsedInfo = string.Format("Manufacturer Part Number 1: {0}, Manufacturer Part Number 2: {1}, Date: {2}, H/W Version: {3}, S/W Version: {4}",
+                partNum1, partNum2, date, hw, sw);
+
+            return parsedInfo;
+        }
+
+        // Sensor ID 처리
+        private string ParseSensorID(List<byte> data)
+        {
+            string parsedInfo;
+            int requiredLength = 18; // 최소 데이터 길이
+
+            // 패딩 처리
+            data = EnsureDataLength(data, requiredLength);
+
+            // Sensor ID 1~4를 16진수 → 10진수로 변환
+            int sensorID1 = Convert.ToInt32(BitConverter.ToString(data.GetRange(2, 4).ToArray()).Replace("-", ""), 16);
+            int sensorID2 = Convert.ToInt32(BitConverter.ToString(data.GetRange(6, 4).ToArray()).Replace("-", ""), 16);
+            int sensorID3 = Convert.ToInt32(BitConverter.ToString(data.GetRange(10, 4).ToArray()).Replace("-", ""), 16);
+            int sensorID4 = Convert.ToInt32(BitConverter.ToString(data.GetRange(14, 4).ToArray()).Replace("-", ""), 16);
+
+            parsedInfo = string.Format("Sensor ID 1: {0}, Sensor ID 2: {1}, Sensor ID 3: {2}, Sensor ID 4: {3}",
+                sensorID1, sensorID2, sensorID3, sensorID4);
+
+            return parsedInfo;
+        }
+
+        // VIN 처리
+        private string ParseVIN(List<byte> data)
+        {
+            string parsedInfo;
+            int requiredLength = 18; // 최소 데이터 길이
+
+            // 패딩 처리
+            data = EnsureDataLength(data, requiredLength);
+
+            string vin = Encoding.ASCII.GetString(data.GetRange(2, 17).ToArray()).TrimEnd('\0');
+            parsedInfo = string.Format("VIN: {0}", vin);
+
+            return parsedInfo;
+        }
+
+        // HMC/KMC 처리
+        private string ParseHMCKMC(List<byte> data)
+        {
+            string parsedInfo;
+            int requiredLength = 5; // 최소 데이터 길이
+
+            // 패딩 처리
+            data = EnsureDataLength(data, requiredLength);
+
+            string numSensor = data[2] == 0x04 ? "4" : data[2] == 0x05 ? "5" : "Unknown";
+            string levelSet = data[3] == 0x01 ? "Low Line" : data[3] == 0x02 ? "High Line" : "Unknown";
+            string rfConfig = data[4] == 0x01 ? "315MHz" : data[4] == 0x02 ? "433.92MHz" : "Unknown";
+
+            parsedInfo = string.Format("Number of Sensors: {0}, System Level Setting: {1}, RF Configuration: {2}",
+                numSensor, levelSet, rfConfig);
+
+            return parsedInfo;
+        }
+
+        // ECU Identification 처리
+        private string ParseECUIdentification(List<byte> data)
+        {
+            string parsedInfo;
+            int requiredLength = 16; // 최소 데이터 길이
+
+            // 패딩 처리
+            data = EnsureDataLength(data, requiredLength);
+
+            string hmckmc = Encoding.ASCII.GetString(data.GetRange(2, 4).ToArray()).TrimEnd('\0');
+            string blank = Encoding.ASCII.GetString(data.GetRange(6, 1).ToArray()).TrimEnd('\0');
+            string hkSysLev = Encoding.ASCII.GetString(data.GetRange(7, 9).ToArray()).TrimEnd('\0');
+
+            parsedInfo = string.Format("HMC/KMC System Name: {0}, Blank: {1}, HMC/KMC System Level: {2}",
+                hmckmc, blank, hkSysLev);
+
+            return parsedInfo;
+        }
+
+        // Vehicle Project Name 처리
+        private string ParseVehicleProjectName(List<byte> data)
+        {
+            string parsedInfo;
+            int requiredLength = 8; // 최소 데이터 길이
+
+            // 패딩 처리
+            data = EnsureDataLength(data, requiredLength);
+
+            string projectName = Encoding.ASCII.GetString(data.GetRange(2, 6).ToArray()).TrimEnd('\0');
+            parsedInfo = string.Format("Project Name: {0}", projectName);
+
+            return parsedInfo;
+        }
+
+        // 패딩 처리 메서드 (기존 데이터 유지, 부족한 부분만 0으로 채움)
+        private List<byte> EnsureDataLength(List<byte> data, int requiredLength)
+        {
+            if (data.Count < requiredLength)
+            {
+                List<byte> paddedData = new List<byte>(data); // 기존 데이터 복사
+                paddedData.AddRange(Enumerable.Repeat((byte)0, requiredLength - data.Count)); // 부족한 자리 0으로 채움
+                return paddedData;
+            }
+            return data;
+        }
+
+        // Rx 데이터 파싱
+        private List<byte> ParseRxData(TPCANMsg message)
+        {
+            if (message.DATA[0] >> 4 == 0x1) // First Frame (FF)
+            {
+                // First Frame: 기존 데이터 초기화 및 데이터 추가
+                receivedData2.Clear();
+                expectedDataLength = ((message.DATA[0] & 0x0F) << 8) | message.DATA[1];
+                receivedData2.AddRange(message.DATA.Skip(2).Take(message.LEN - 2));
+            }
+            else if (message.DATA[0] >> 4 == 0x2) // Consecutive Frame (CF)
+            {
+                // Consecutive Frame: 데이터 이어 붙이기
+                receivedData2.AddRange(message.DATA.Skip(1).Take(message.LEN - 1));
+            }
+
+            return receivedData2;
+        }
+
+        //Rx로그의 Description 내용으로 판단
+        private void ProcessRxData(TPCANMsg message, string description)
+        {
+            ParseRxData(message); // MultiFrame 데이터 병합
+
+            string parsedData = string.Empty;
+
+            // Description에 따라 데이터 파싱
+            if (description.Contains("Manufacturer Part"))
+            {
+                parsedData = ParseManufacturerPartInfo(receivedData2);
+            }
+            else if (description.Contains("Sensor ID"))
+            {
+                parsedData = ParseSensorID(receivedData2);
+            }
+            else if (description.Contains("VIN"))
+            {
+                parsedData = ParseVIN(receivedData2);
+            }
+            else if (description.Contains("HMC/KMC"))
+            {
+                parsedData = ParseHMCKMC(receivedData2);
+            }
+            else if (description.Contains("ECU Identification"))
+            {
+                parsedData = ParseECUIdentification(receivedData2);
+            }
+            else if (description.Contains("Vehicle Project"))
+            {
+                parsedData = ParseVehicleProjectName(receivedData2);
+            }
+
+            if (message.DATA[0] >> 4 == 0x10 || (message.DATA[0] >= 0x21 && message.DATA[0] < 0x30))
+            {
+                if (receivedData2.Count >= expectedDataLength)
+                {
+                    // 추가 정보 로그로 출력
+                    if (!string.IsNullOrEmpty(parsedData))
+                    {
+                        LogAdditionalDescription(parsedData);
+                    }
+
+                    receivedData2.Clear();
+                    expectedDataLength = 0;
+
+                }
+            }
+        }
+
+        //===============================================================================================
+        //   LogList 업데이트 관련 메서드
+        //===============================================================================================
+
         private void UpdateDisplay(string logEntry)
         {
             if (LogListBox.InvokeRequired)
@@ -1635,6 +1869,9 @@ namespace TPMS_DTC
                 LogListBox.Invoke(new System.Action(() =>
                 {
                     LogListBox.Items.Add(logEntry);
+
+                    // 자동 저장 호출
+                    LogListBox_ItemsChanged(null, null);
 
                     // 표시 항목 수 제한 (예: 100개)
                     if (LogListBox.Items.Count > 100)
@@ -1649,6 +1886,49 @@ namespace TPMS_DTC
             else
             {
                 LogListBox.Items.Add(logEntry);
+
+                // 자동 저장 호출
+                LogListBox_ItemsChanged(null, null);
+
+                // 표시 항목 수 제한 (예: 100개)
+                if (LogListBox.Items.Count > 100)
+                {
+                    LogListBox.Items.RemoveAt(0);
+                }
+
+                // 마지막 항목으로 스크롤
+                LogListBox.TopIndex = LogListBox.Items.Count - 1;
+            }
+        }
+
+        //Read Tx일때 Rx의 ReadDescription 로그에 추가
+        private void LogAdditionalDescription(string additionalDescription)
+        {
+            if (LogListBox.InvokeRequired)
+            {
+                LogListBox.Invoke(new System.Action(() =>
+                {
+                    LogListBox.Items.Add("Read Info [ " + additionalDescription + " ]");
+
+                    // 자동 저장 호출
+                    LogListBox_ItemsChanged(null, null);
+
+                    // 표시 항목 수 제한 (예: 100개)
+                    if (LogListBox.Items.Count > 100)
+                    {
+                        LogListBox.Items.RemoveAt(0);
+                    }
+
+                    // 마지막 항목으로 스크롤
+                    LogListBox.TopIndex = LogListBox.Items.Count - 1;
+                }));
+            }
+            else
+            {
+                LogListBox.Items.Add("Read Info: [ " + additionalDescription + " ]");
+
+                // 자동 저장 호출
+                LogListBox_ItemsChanged(null, null);
 
                 // 표시 항목 수 제한 (예: 100개)
                 if (LogListBox.Items.Count > 100)
@@ -1671,7 +1951,33 @@ namespace TPMS_DTC
             MessageBox.Show("Log has been reset.", "Log Reset", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // 로그를 담을 간단한 클래스
+        private void LogListBox_ItemsChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                // 저장 파일 경로
+                string logListDisplayPath = Path.Combine(folderPath, "LogListDisplay.txt");
+
+                // LogListBox의 모든 항목을 파일에 저장
+                using (StreamWriter writer = new StreamWriter(logListDisplayPath, false))
+                {
+                    foreach (var item in LogListBox.Items)
+                    {
+                        writer.WriteLine(item.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 예외 발생 시 로그에 남길 수 있음 (선택 사항)
+                Console.WriteLine("LogListBox 자동 저장 중 오류 발생: " + ex.Message);
+            }
+        }
+
+        //===============================================================================================
+        //   로그를 담을 클래스
+        //===============================================================================================
+
         public class LogEntry
         {
             public string Direction;   // "TX" or "RX"
