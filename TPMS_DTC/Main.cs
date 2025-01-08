@@ -134,7 +134,7 @@ namespace TPMS_DTC
         //======================================================================
         //   CH2 버튼 (연결 / 해제)
         //======================================================================
-        private void CH2_Button_Click(object sender, EventArgs e)
+        /*private void CH2_Button_Click(object sender, EventArgs e)
         {
             if (!ch2Connected)
             {
@@ -175,7 +175,7 @@ namespace TPMS_DTC
                 // 두 채널 모두 꺼졌으면 타이머 정지
                 StopTimersIfNoConnection();
             }
-        }
+        }*/
 
         //======================================================================
         //   연결 시 수신 / 저장 타이머 시작
