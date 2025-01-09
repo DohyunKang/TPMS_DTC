@@ -1568,7 +1568,26 @@ namespace TPMS_DTC
 
                 string commandString = string.Join(" ", commandHexArray);
                 MessageBox.Show(string.Format("tb_byte0 ~ tb_byte7에 데이터가 적용되었습니다. tb_byte0: {0:X2}, 데이터: {1}", command.Length, commandString));
+
+                // Single Frame 메시지 즉시 전송
+                SendSingleFrame(command, description);
             }
+        }
+
+        private void SendSingleFrame(byte[] command, string description)
+        {
+            // Single Frame 메시지 데이터 구성
+            byte[] singleFrame = new byte[8];
+            singleFrame[0] = (byte)command.Length; // 첫 번째 바이트: 데이터 길이
+            Array.Copy(command, 0, singleFrame, 1, command.Length); // 나머지 데이터 복사
+
+            for (int i = command.Length + 1; i < 8; i++) // 나머지 바이트를 0으로 패딩
+            {
+                singleFrame[i] = 0x00;
+            }
+
+            // CAN 메시지 전송
+            SendCanMessage(0x7D6, "Single Frame", singleFrame, description);
         }
 
         private void SendFirstFrame(byte[] command, string description)
